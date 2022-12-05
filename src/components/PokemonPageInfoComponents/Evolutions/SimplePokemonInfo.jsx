@@ -30,7 +30,7 @@ const SimplePokemonInfo = ({ pokemonNumber, name = true }) => {
           <img
             src={imgSrc}
             alt={thisPokemon?.name}
-            className="relative px-2 z-[100] w-20 h-20"
+            className="relative px-2 z-[35] w-20 h-20"
           />
         ) : (
           <div className="w-20 h-20 text-xs flex items-center justify-center">

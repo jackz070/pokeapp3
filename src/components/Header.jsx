@@ -15,9 +15,8 @@ const Header = () => {
   const { user } = useAuth0();
   return (
     <Fragment>
-      {" "}
       <ToastContainer theme={"dark"} className="pt-14" />
-      <header className="w-full h-20 bg-[#191921] justify-between fixed z-30 flex items-center px-4">
+      <header className="w-full h-20 bg-[#191921] justify-between fixed z-40 flex items-center px-4">
         <Link to="/">
           <div className="uppercase tracking-widest font-bold text-2xl">
             PokeApp 3.0

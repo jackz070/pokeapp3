@@ -3,7 +3,7 @@ import "./TabsComponent.css";
 
 function TabsComponent({ tab1, tab2, tab3 }) {
   return (
-    <div className="Tabs-wrapper relative z-[55]">
+    <div className="Tabs-wrapper relative z-[34]">
       <Tabs className="Tabs">
         <TabList>
           <Tab>About</Tab>

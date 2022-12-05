@@ -49,7 +49,7 @@ const PokemonPage = ({ id }) => {
             src={imgSrc}
             alt={thisPokemon?.name}
             loading="lazy"
-            className="relative px-12 z-[100] w-80 h-64"
+            className="relative px-12 z-[34] w-80 h-64"
           />
         ) : (
           <div className="w-80 h-64 text-sm flex items-center justify-center">
