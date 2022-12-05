@@ -1,5 +1,5 @@
 import React from "react";
-
+// TEST COMMENT
 import PokedexSinglePokemonWrapper from "./PokedexSinglePokemonWrapper";
 import FullScreenLoading from "../Loaders/FullScreenLoading";
 
