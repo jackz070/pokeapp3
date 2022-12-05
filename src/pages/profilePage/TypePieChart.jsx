@@ -31,43 +31,47 @@ const TypePieChart = () => {
 
     return tally;
   };
-
+  // TODO Separate fetching and display to two components?
   const formattedData = [];
   React.useEffect(() => {
-    const fillAllTypes = async () => {
-      const allTypes = [];
-      await Promise.all(
-        caughtPokemon?.map(async (pokemonNumber) => {
-          const data = await queryClient.fetchQuery({
-            queryKey: ["pokemon", pokemonNumber],
-            queryFn: () =>
-              fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`).then(
-                (res) => {
+    if (loading) {
+      const fillAllTypes = async () => {
+        const allTypes = [];
+        await Promise.all(
+          caughtPokemon?.map(async (pokemonNumber) => {
+            const data = await queryClient.fetchQuery({
+              queryKey: ["pokemon", pokemonNumber],
+              queryFn: () =>
+                fetch(
+                  `https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`
+                ).then((res) => {
                   return res.json();
-                }
-              ),
-          });
+                }),
+            });
 
-          data?.types?.map((type) => allTypes.push(capitalize(type.type.name)));
+            data?.types?.map((type) =>
+              allTypes.push(capitalize(type.type.name))
+            );
 
-          setTypes((prev) => [...prev, ...allTypes]);
-        })
-      );
-    };
-    fillAllTypes();
+            setTypes((prev) => [...prev, ...allTypes]);
+          })
+        );
+      };
+      fillAllTypes();
 
-    const talliedTypes = createTally(types);
+      const talliedTypes = createTally(types);
 
-    for (let type in talliedTypes) {
-      formattedData.push({
-        title: type,
-        value: talliedTypes[type],
-        color: typeColorClassChartCodes[type],
-      });
+      for (let type in talliedTypes) {
+        formattedData.push({
+          title: type,
+          value: talliedTypes[type],
+          color: typeColorClassChartCodes[type],
+        });
+      }
+      setData(formattedData);
+      setLoading(false);
     }
-    setData(formattedData);
-    setLoading(false);
-  }, [caughtPokemon, types]);
+  }, [types]);
   // const getAllTypes = () => {
   //   const allTypes = [];
   //   caughtPokemon.map((pokemonNumber) => {
@@ -92,7 +96,9 @@ const TypePieChart = () => {
 
   return (
     <div>
-      {data.length > 0 && (
+      {!data.length > 0 ? (
+        "Loading..."
+      ) : (
         <PieChart
           className="w-72 h-72"
           data={data}
