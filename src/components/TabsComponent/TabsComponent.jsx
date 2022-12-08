@@ -1,18 +1,18 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "./TabsComponent.css";
 
-function TabsComponent({ tab1, tab2, tab3 }) {
+function TabsComponent({ tabs }) {
   return (
-    <div className="Tabs-wrapper relative z-[34]">
-      <Tabs className="Tabs">
-        <TabList>
-          <Tab>About</Tab>
-          <Tab>Stats</Tab>
-          <Tab>Evolutions</Tab>
+    <div className="Tabs-wrapper relative z-[34]  w-full mx-0">
+      <Tabs className="Tabs mx-0   w-full">
+        <TabList className=" w-fit flex">
+          {tabs.map((tab) => (
+            <Tab key={tab.label}>{tab.label}</Tab>
+          ))}
         </TabList>
-        <TabPanel>{tab1}</TabPanel>
-        <TabPanel>{tab2}</TabPanel>
-        <TabPanel>{tab3}</TabPanel>
+        {tabs.map((tab, index) => (
+          <TabPanel key={index}>{tab.content}</TabPanel>
+        ))}
       </Tabs>
     </div>
   );

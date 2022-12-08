@@ -1,9 +1,11 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import Header from "./components/Header";
-import Nav from "./components/Nav";
+import Header from "./components/NavHeaderMenu/Header";
+import Nav from "./components/NavHeaderMenu/Nav";
 import { Outlet } from "react-router-dom";
+
+import { useMobileMenu } from "./context/MobileMenuContext";
 
 function App() {
   const [sideNavIsOpen, setSideNavIsOpen] = React.useState(false);
@@ -18,14 +20,18 @@ function App() {
     );
   }
 
+  const [mobileMenu] = useMobileMenu();
+
   return (
-    <div>
+    <div className="relative">
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Header />
-        <Nav
-          sideNavIsOpen={sideNavIsOpen}
-          setSideNavIsOpen={setSideNavIsOpen}
-        />
+        {!mobileMenu && (
+          <Nav
+            sideNavIsOpen={sideNavIsOpen}
+            setSideNavIsOpen={setSideNavIsOpen}
+          />
+        )}
 
         <Outlet />
       </ErrorBoundary>

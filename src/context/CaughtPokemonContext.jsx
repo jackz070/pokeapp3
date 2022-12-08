@@ -27,7 +27,12 @@ function CaughtPokemonProvider(props) {
     localStorage.setItem("caughtPokemon", JSON.stringify(caughtPokemon));
   }, [caughtPokemon]);
 
-  const value = { caughtPokemon, saveCaughtPokemon, removeCaughtPokemon };
+  const value = {
+    caughtPokemon,
+    saveCaughtPokemon,
+    removeCaughtPokemon,
+    setCaughtPokemon,
+  };
 
   return <CaughtPokemonContext.Provider value={value} {...props} />;
 }

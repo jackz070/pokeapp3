@@ -10,7 +10,6 @@ const usePokemon = (pokemonNumber) => {
 
 const usePokemonList = (limit) => {
   const result = useQuery(["pokemonList"], () => Api.pokemonList(limit));
-  console.log(result);
   return { ...result, pokemonList: result?.data?.results };
 };
 
@@ -22,7 +21,6 @@ const usePokemonSpecies = (pokemonNumber) => {
 };
 
 const useType = (typeName) => {
-  console.log(typeName);
   const result = useQuery(["type", typeName], () => Api.type(typeName));
   return { ...result };
 };

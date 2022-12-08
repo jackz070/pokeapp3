@@ -9,7 +9,7 @@ import typeColorClassChartCodes from "../../utils/typeColorClassChart-codes";
 
 const TypePieChart = () => {
   const [data, setData] = React.useState();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [types, setTypes] = React.useState([]);
 
   const { caughtPokemon } = useCaughtPokemon();
@@ -52,26 +52,28 @@ const TypePieChart = () => {
         });
       })
     );
-    const talliedTypes = await createTally(types);
+    const talliedTypes = createTally(types);
 
     for (let type in talliedTypes) {
-      await formattedData.push({
+      formattedData.push({
         title: type,
         value: talliedTypes[type],
         color: typeColorClassChartCodes[type],
       });
     }
-    await setData(formattedData);
+    setData(formattedData);
   };
 
   React.useEffect(() => {
-    fillAllTypes();
-    setLoading(false);
+    if (!caughtPokemon.length === 0) {
+      fillAllTypes();
+    }
   }, []);
 
   React.useEffect(() => {
-    fillAllTypes();
-    setLoading(false);
+    if (data === undefined || data.length === 0) {
+      fillAllTypes();
+    }
   }, [data]);
 
   return (

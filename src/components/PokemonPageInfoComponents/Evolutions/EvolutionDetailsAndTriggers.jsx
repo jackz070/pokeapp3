@@ -44,7 +44,7 @@ const EvolutionDetailsAndTriggers = ({ evolutionDetails }) => {
   };
 
   return (
-    <div className="flex flex-col items-center ml-4">
+    <div className="flex flex-col items-center">
       <div className="text-xs">{evolutionDetailsInfo(evolutionDetails)}</div>
       <div className="text-xs">{evolutionTriggersInfo(evolutionDetails)}</div>
       <div>➡️</div>

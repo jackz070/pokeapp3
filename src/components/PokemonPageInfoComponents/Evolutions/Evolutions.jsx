@@ -3,10 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../Loaders/LoadingSpinner";
 import SimplePokemonInfo from "./SimplePokemonInfo";
 import EvolutionDetailsAndTriggers from "./EvolutionDetailsAndTriggers";
+import MobileMenu from "../../NavHeaderMenu/MobileMenu";
+import { useMobileMenu } from "../../../context/MobileMenuContext";
 
 const Evolutions = ({ thisPokemonDetails }) => {
   const url = thisPokemonDetails?.evolution_chain.url;
-
+  const [mobileMenu] = useMobileMenu();
   const {
     data: thisPokemonEvolutionChain,
     isSuccess,
@@ -20,7 +22,7 @@ const Evolutions = ({ thisPokemonDetails }) => {
   // TODO add other evolution requirements if showing all generations
 
   return (
-    <div className="flex">
+    <div className="flex flex-col sm:flex-row">
       {isLoading && <LoadingSpinner />}
       {isSuccess && thisPokemonEvolutionChain?.chain?.evolves_to.length === 0 && (
         <div className="flex flex-col items-center mt-6 ">
@@ -41,7 +43,11 @@ const Evolutions = ({ thisPokemonDetails }) => {
           <div>
             {thisPokemonEvolutionChain?.chain?.evolves_to.map(
               (evolution, index) => (
-                <div className="flex items-center justify-between">
+                <div
+                  className={`flex ${
+                    mobileMenu && "flex-col"
+                  } items-center justify-between`}
+                >
                   <EvolutionDetailsAndTriggers
                     evolutionDetails={
                       thisPokemonEvolutionChain?.chain?.evolves_to[index]
@@ -64,8 +70,13 @@ const Evolutions = ({ thisPokemonDetails }) => {
             <div>
               {thisPokemonEvolutionChain?.chain?.evolves_to[0]?.evolves_to.map(
                 (evolution, index) => (
-                  <div className="flex items-center justify-between">
+                  <div
+                    className={`flex ${
+                      mobileMenu && "flex-col"
+                    } items-center justify-between`}
+                  >
                     <EvolutionDetailsAndTriggers
+                      className=""
                       evolutionDetails={
                         thisPokemonEvolutionChain?.chain?.evolves_to[0]
                           ?.evolves_to[index]?.evolution_details[0]

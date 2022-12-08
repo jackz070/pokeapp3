@@ -10,6 +10,7 @@ import PokedexSinglePokemonSkeleton from "../Loaders/PokedexSinglePokemonSkeleto
 import { capitalize } from "../../utils/text-formatting";
 
 import AddRemoveMyPokemonButton from "../CaughtPokemon/AddRemoveMyPokemonButton";
+import { useMobileMenu } from "../../context/MobileMenuContext";
 
 const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
   const [isToBeDisplayed, setIsToBeDisplayed] = React.useState(true);
@@ -21,6 +22,8 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
     isSuccess,
     data: thisPokemon,
   } = usePokemon(pokemon.name);
+
+  const [mobileMenu] = useMobileMenu();
 
   const types = [];
   getTypes(thisPokemon);
@@ -51,22 +54,24 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
   if (isSuccess) {
     return (
       <div
-        className="relative p-4 hover:scale-105 transition-all "
+        className="relative p-4 hover:scale-105 transition-all w-[175px]"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         {/* {isLoading && <LoadingSpinner size={"small"} />} */}
-        <div className="absolute top-[86px] right-8 z-10">
-          <AddRemoveMyPokemonButton
-            pokemonNumber={thisPokemon?.id}
-            pokemonName={thisPokemon.name}
-          />
-        </div>
+        {!mobileMenu && (
+          <div className="absolute top-[86px] right-8 z-10">
+            <AddRemoveMyPokemonButton
+              pokemonNumber={thisPokemon?.id}
+              pokemonName={thisPokemon.name}
+            />
+          </div>
+        )}
         <div>
           <div
             className={`bg-gradient-radial ${
               typeColorClassChartBg[thisPokemon?.types[0]?.type.name]
-            } via-[rgba(0,0,0,0)] absolute -top-5 -left-5  h-[230px] w-[230px]  ${
+            } via-[rgba(0,0,0,0)] absolute -top-5 -left-5  h-[200px] w-[200px]  ${
               hovered ? "opacity-20" : "opacity-10"
             }`}
           />
@@ -105,7 +110,7 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
                 return (
                   <TypeChip
                     type={type.type.name}
-                    key={thisPokemon.name + type.type.name}
+                    key={thisPokemon?.name + type.type.name}
                   />
                 );
               })}

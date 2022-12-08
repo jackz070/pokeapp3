@@ -5,13 +5,13 @@ import FullScreenLoading from "../Loaders/FullScreenLoading";
 
 import typeColorClassChart from "../../utils/typeColorClassChart";
 
-import { ToastContainer } from "react-toastify";
-
 import FilterIcon from "../../assets/FilterIcon.png";
 
 import { QueryClient } from "@tanstack/react-query";
 import { usePokemonList } from "../../utils/api-client";
 import { usePokedexSettings } from "../../context/PokedexSettingsContext";
+import { useMobileMenu } from "../../context/MobileMenuContext";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const Pokedex = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -20,6 +20,7 @@ const Pokedex = () => {
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
   const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] =
     React.useState([]);
+  const [showMobileSearch, setShowMobileSearch] = React.useState(false);
 
   const filterByTypeOptions = [
     "normal",
@@ -58,6 +59,8 @@ const Pokedex = () => {
     },
   });
 
+  const [mobileMenu] = useMobileMenu();
+
   // State for sticking the search bar on top when scrolling
   const handleScroll = () => {
     const position = window.scrollY;
@@ -66,13 +69,15 @@ const Pokedex = () => {
 
   // Logic for sticking the search bar on top when scrolling, useLayoutEffect instead of useEffect because it's realted to scrolling events
   React.useLayoutEffect(() => {
-    if (searchTerm.length === 0 && filterByType.length === 0) {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }
+    if (!mobileMenu) {
+      if (searchTerm.length === 0 && filterByType.length === 0) {
+        window.addEventListener("scroll", handleScroll, { passive: true });
+      }
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
 
   // Filter menu closes on click outside
@@ -131,63 +136,152 @@ const Pokedex = () => {
     }
   };
 
-  return (
-    <div className="flex flex-col items-center pt-28 bg-[#191921]">
-      <div
-        className={`transition-all flex items-center z-50 mb-12 ${
-          headerOnTop ? "fixed top-[25px] " : null
-        }`}
-      >
-        <input
-          ref={bar}
-          type="text"
-          placeholder="Search for Pokemon"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921]"
-        />
-        <div className="relative">
-          <button
-            onClick={() => setShowFilterMenu((prev) => !prev)}
-            className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
-              showFilterMenu ? "border-[white] hover:border-[white]" : null
-            }`}
-          >
-            <img src={FilterIcon} ref={filterMenuButton} />
-            {filterByType.length !== 0 && (
-              <div className="w-3 h-3 bg-red-500 absolute right-1 bottom-1 rounded-full"></div>
-            )}
-          </button>
+  // Mobile search closes on click outside
+  const mobileSearch = React.useRef();
+  const mobileSearchButton = React.useRef();
+  React.useEffect(() => {
+    const handleClick = (e) => {
+      if (
+        !mobileSearchButton.current.contains(e.target) &&
+        !mobileSearch?.current?.contains(e.target)
+      ) {
+        setShowMobileSearch(false);
+      }
+    };
 
-          {showFilterMenu && (
-            <div
-              className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase bg-white`}
-              ref={filterMenu}
+    if (showMobileSearch) {
+      document.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, [showMobileSearch]);
+
+  // TODO issues with placement - grid elements sizing, gradient misplacement, relative positon on the element below (when removed in dev tools it helps with mobile header bar scrolling issue, if removed here - it doesnt)
+  return (
+    <div className="flex flex-col items-center pt-20 bg-darkPrimary max-w-[1280px] mx-auto relative">
+      {mobileMenu && (
+        <button
+          onClick={() => setShowMobileSearch((prev) => !prev)}
+          className="text-xs fixed top-7 right-14 z-[1500]"
+          ref={mobileSearchButton}
+        >
+          <AiOutlineSearch className="w-6 h-6" />
+        </button>
+      )}
+      {!mobileMenu && (
+        <div
+          className={`transition-all flex items-center z-[2000] mb-12 ${
+            headerOnTop ? "fixed top-[25px] " : null
+          }`}
+        >
+          <input
+            ref={bar}
+            type="text"
+            placeholder="Search for Pokemon"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921] "
+          />
+          <div className="relative">
+            <button
+              onClick={() => setShowFilterMenu((prev) => !prev)}
+              className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
+                showFilterMenu ? "border-[white] hover:border-[white]" : null
+              }`}
             >
-              {filterByTypeOptions.map((option) => (
-                <button
-                  key={option}
-                  onClick={() => handleFilterClick(option)}
-                  className={`${
-                    filterByType.includes(option)
-                      ? `${
-                          typeColorClassChart[
-                            option[0].toUpperCase() + option.substring(1)
-                          ]
-                        } font-bold`
-                      : "text-[#191921]"
-                  } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 disabled:text-slate-400 transition-all`}
-                  disabled={
-                    filterByType.length > 0 && !filterByType.includes(option)
-                  }
-                >
-                  {option[0].toUpperCase() + option.substring(1)}
-                </button>
-              ))}
-            </div>
-          )}
+              <img src={FilterIcon} ref={filterMenuButton} />
+              {filterByType.length !== 0 && (
+                <div className="w-3 h-3 bg-red-500 absolute right-1 bottom-1 rounded-full"></div>
+              )}
+            </button>
+
+            {showFilterMenu && (
+              <div
+                className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase bg-white`}
+                ref={filterMenu}
+              >
+                {filterByTypeOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => handleFilterClick(option)}
+                    className={`${
+                      filterByType.includes(option)
+                        ? `${
+                            typeColorClassChart[
+                              option[0].toUpperCase() + option.substring(1)
+                            ]
+                          } font-bold`
+                        : "text-[#191921]"
+                    } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 disabled:text-slate-400 transition-all`}
+                    disabled={
+                      filterByType.length > 0 && !filterByType.includes(option)
+                    }
+                  >
+                    {option[0].toUpperCase() + option.substring(1)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+      {mobileMenu && showMobileSearch && (
+        <div
+          className={`transition-all flex items-center z-[2000] mb-6 bg-slate-800 px-1 py-4 w-[90%] rounded-md fixed`}
+          ref={mobileSearch}
+        >
+          <input
+            type="text"
+            placeholder="Search for Pokemon"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921] "
+          />
+          <div className="relative">
+            <button
+              onClick={() => setShowFilterMenu((prev) => !prev)}
+              className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
+                showFilterMenu ? "border-[white] hover:border-[white]" : null
+              }`}
+            >
+              <img src={FilterIcon} ref={filterMenuButton} />
+              {filterByType.length !== 0 && (
+                <div className="w-3 h-3 bg-red-500 absolute right-1 bottom-1 rounded-full"></div>
+              )}
+            </button>
+
+            {showFilterMenu && (
+              <div
+                className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase bg-white`}
+                ref={filterMenu}
+              >
+                {filterByTypeOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => handleFilterClick(option)}
+                    className={`${
+                      filterByType.includes(option)
+                        ? `${
+                            typeColorClassChart[
+                              option[0].toUpperCase() + option.substring(1)
+                            ]
+                          } font-bold`
+                        : "text-[#191921]"
+                    } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 disabled:text-slate-400 transition-all`}
+                    disabled={
+                      filterByType.length > 0 && !filterByType.includes(option)
+                    }
+                  >
+                    {option[0].toUpperCase() + option.substring(1)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
           headerOnTop ? "mt-24" : null

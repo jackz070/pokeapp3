@@ -1,12 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ToastContainer, toast } from "react-toastify";
 import React from "react";
+import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
 
 export const LogoutButton = () => {
   const { logout } = useAuth0();
+  const { setCaughtPokemon } = useCaughtPokemon();
 
   const handleLogout = () => {
     console.log(window.location.origin);
+    setCaughtPokemon([]);
     try {
       logout({
         returnTo: window.location.origin,
