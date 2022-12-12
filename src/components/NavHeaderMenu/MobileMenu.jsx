@@ -4,16 +4,30 @@ import Nav from "./Nav";
 import LoginUserHeaderArea from "./LoginUserHeaderArea";
 
 import { RemoveScroll } from "react-remove-scroll";
+import DarkModeSwitch from "../../utils/DarkModeSwitch";
 
-// TODO All link clicks in this menu should close it
-// TODO Nav should have backgrounds that are not straight on left side
-const MobileMenu = () => {
+const MobileMenu = ({ setDisplayMobileMenu }) => {
+  const handleClickOutsideElements = (e) => {
+    console.log(e.target.tagName);
+    if (e.target.tagName !== "DIV" && e.target.tagName !== "svg") {
+      setDisplayMobileMenu(false);
+    }
+  };
+
+  React.useEffect((props) => {
+    window.addEventListener("click", handleClickOutsideElements);
+    return () => {
+      window.removeEventListener("click", handleClickOutsideElements);
+    };
+  }, []);
+
   return (
     <RemoveScroll>
       <div className="h-full w-full fixed overscroll-none overflow-hidden z-[55]">
-        <div className="bg-darkPrimary h-screen w-screen flex flex-col justify-center items-center overscroll-none overflow-hidden">
-          <div className="mb-12">
+        <div className="dark:bg-darkPrimary bg-white dark:text-white text-darkPrimary h-screen w-screen flex flex-col justify-center items-center overscroll-none overflow-hidden">
+          <div className="mb-12 ">
             <Nav />
+            <DarkModeSwitch />
           </div>
           <LoginUserHeaderArea className="mt-12" />
         </div>

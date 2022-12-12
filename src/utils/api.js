@@ -1,5 +1,3 @@
-import { usePokedexSettings } from "../context/PokedexSettingsContext";
-
 const Api = {
   pokemon: async (pokemonNumber) => {
     return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`).then(

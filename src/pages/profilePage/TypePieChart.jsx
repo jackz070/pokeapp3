@@ -84,6 +84,7 @@ const TypePieChart = () => {
         label={({ dataEntry }) => dataEntry.title}
         labelStyle={(index) => ({
           fontSize: "4px",
+          fill: "",
         })}
         labelPosition={80}
       />

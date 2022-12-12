@@ -81,17 +81,17 @@ const PokemonPage = ({ id }) => {
               <div
                 className={`bg-gradient-radial ${
                   typeColorClassChartBg[thisPokemon?.types[0]?.type.name]
-                } via-[rgba(0,0,0,0)] absolute -top-24 sm:-top-64 right-0 sm:-right-56 h-[375px] sm:h-[700px] w-[375px] sm:w-[700px]   z-[31] opacity-30 `}
+                } via-[rgba(0,0,0,0)] absolute -top-24 sm:-top-64 right-0 sm:-right-56 h-[375px] sm:h-[700px] w-[375px] sm:w-[700px]   z-[31] dark:opacity-30 opacity-50`}
               />
               <div
                 className={`bg-gradient-radial  from-[#d8fdc3]
-                 via-[rgba(0,0,0,0)] absolute -top-12 sm:-top-44 right-0 sm:-right-16 h-[322px] sm:h-[600px] w-[322px] sm:w-[600px] z-[31] opacity-10 `}
+                 via-[rgba(0,0,0,0)] absolute -top-12 sm:-top-44 right-0 sm:-right-16 h-[322px] sm:h-[600px] w-[322px] sm:w-[600px] z-[31] dark:opacity-10  opacity-30`}
               />
               <div
                 className={`bg-gradient-radial  ${
                   typeColorClassChartBg[thisPokemon?.types[1]?.type.name]
                 }
-                 via-[rgba(0,0,0,0)] absolute -top-6 sm:-top-20 right-0 sm:-right-24 h-[341px] sm:h-[600px] w-[341px] sm:w-[600px] z-[31] opacity-30 `}
+                 via-[rgba(0,0,0,0)] absolute -top-6 sm:-top-20 right-0 sm:-right-24 h-[341px] sm:h-[600px] w-[341px] sm:w-[600px] z-[31] dark:opacity-30 opacity-60 `}
               />
               <div
                 className={`bg-gradient-radial  from-[#c3c6fd]

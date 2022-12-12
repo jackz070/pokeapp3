@@ -71,16 +71,20 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
           <div
             className={`bg-gradient-radial ${
               typeColorClassChartBg[thisPokemon?.types[0]?.type.name]
-            } via-[rgba(0,0,0,0)] absolute -top-5 -left-5  h-[200px] w-[200px]  ${
-              hovered ? "opacity-20" : "opacity-10"
+            } via-[rgba(0,0,0,0)] absolute -top-3 left-2  h-[200px] w-[200px] ${
+              hovered
+                ? "dark:opacity-20 opacity-60"
+                : "dark:opacity-10 opacity-50"
             }`}
           />
           <div
             className={`bg-gradient-radial  ${
               typeColorClassChartBg[thisPokemon?.types[1]?.type.name]
             }
-               via-[rgba(0,0,0,0)] absolute top-10 right-0 h-[190px] w-[190px] ${
-                 hovered ? "opacity-30" : "opacity-10"
+               via-[rgba(0,0,0,0)] absolute -top-2 right-0 h-[190px] w-[190px] ${
+                 hovered
+                   ? "dark:opacity-30 opacity-50"
+                   : "dark:opacity-10 opacity-40"
                }`}
           />
         </div>
@@ -101,8 +105,8 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
                 No Image
               </div>
             )}
-            <div className="text-gray-400 text-sm leading-none">{`#${thisPokemon?.id} `}</div>
-            <div className="leading-snug text-white font-bold pb-1 text-xl">
+            <div className="text-gray-400  text-xs leading-none">{`#${thisPokemon?.id} `}</div>
+            <div className="leading-snug font-bold pb-1 text-xl dark:text-white">
               {capitalize(thisPokemon?.name.split("-")[0])}
             </div>
             <div className="flex justify-center items-center w-fit">

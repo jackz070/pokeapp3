@@ -18,17 +18,17 @@ const Evolutions = ({ thisPokemonDetails }) => {
   });
   console.log(thisPokemonEvolutionChain);
 
-  // TODO format evolution item name,
   // TODO add other evolution requirements if showing all generations
 
   return (
     <div className="flex flex-col sm:flex-row">
       {isLoading && <LoadingSpinner />}
-      {isSuccess && thisPokemonEvolutionChain?.chain?.evolves_to.length === 0 && (
-        <div className="flex flex-col items-center mt-6 ">
-          <div>This Pokemon has no evolutions.</div>
-        </div>
-      )}
+      {isSuccess &&
+        thisPokemonEvolutionChain?.chain?.evolves_to.length === 0 && (
+          <div className="flex flex-col items-center mt-6 ">
+            <div>This Pokemon has no evolutions.</div>
+          </div>
+        )}
 
       {isSuccess && thisPokemonEvolutionChain?.chain?.evolves_to.length > 0 && (
         <div className="">

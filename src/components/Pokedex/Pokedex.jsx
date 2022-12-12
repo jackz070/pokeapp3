@@ -13,6 +13,11 @@ import { usePokedexSettings } from "../../context/PokedexSettingsContext";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 import { AiOutlineSearch } from "react-icons/ai";
 
+// TODO missing "no pokemon found" screen when no pokemon are found
+
+// TODO sticky search bar fails when scrolling quickly
+
+// TODO fix mobile search popup is ugly AF
 const Pokedex = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [filterByType, setFilterByType] = React.useState([]);
@@ -64,7 +69,7 @@ const Pokedex = () => {
   // State for sticking the search bar on top when scrolling
   const handleScroll = () => {
     const position = window.scrollY;
-    position <= 79 ? setHeaderOnTop(false) : setHeaderOnTop(true);
+    position <= 45 ? setHeaderOnTop(false) : setHeaderOnTop(true);
   };
 
   // Logic for sticking the search bar on top when scrolling, useLayoutEffect instead of useEffect because it's realted to scrolling events
@@ -158,13 +163,12 @@ const Pokedex = () => {
     };
   }, [showMobileSearch]);
 
-  // TODO issues with placement - grid elements sizing, gradient misplacement, relative positon on the element below (when removed in dev tools it helps with mobile header bar scrolling issue, if removed here - it doesnt)
   return (
-    <div className="flex flex-col items-center pt-20 bg-darkPrimary max-w-[1280px] mx-auto relative">
+    <div className="flex flex-col items-center pt-20 dark:bg-darkPrimary bg-white max-w-[1280px] mx-auto relative">
       {mobileMenu && (
         <button
           onClick={() => setShowMobileSearch((prev) => !prev)}
-          className="text-xs fixed top-7 right-14 z-[1500]"
+          className="text-xs fixed top-7 right-14 z-[6000]"
           ref={mobileSearchButton}
         >
           <AiOutlineSearch className="w-6 h-6" />
@@ -172,7 +176,7 @@ const Pokedex = () => {
       )}
       {!mobileMenu && (
         <div
-          className={`transition-all flex items-center z-[2000] mb-12 ${
+          className={`transition-all flex items-center z-[7000] mb-12 ${
             headerOnTop ? "fixed top-[25px] " : null
           }`}
         >
@@ -182,13 +186,13 @@ const Pokedex = () => {
             placeholder="Search for Pokemon"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921] "
+            className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-darkPrimary "
           />
           <div className="relative">
             <button
               onClick={() => setShowFilterMenu((prev) => !prev)}
-              className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
-                showFilterMenu ? "border-[white] hover:border-[white]" : null
+              className={`p-1 ml-4 dark:border-darkPrimary border-2 rounded-full dark:hover:border-gray-700 hover:border-gray-400 ${
+                showFilterMenu ? "dark:border-white border-gray-400 " : null
               }`}
             >
               <img src={FilterIcon} ref={filterMenuButton} />
@@ -199,7 +203,7 @@ const Pokedex = () => {
 
             {showFilterMenu && (
               <div
-                className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase bg-white`}
+                className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase dark:bg-white bg-trueWhite`}
                 ref={filterMenu}
               >
                 {filterByTypeOptions.map((option) => (
@@ -214,7 +218,7 @@ const Pokedex = () => {
                             ]
                           } font-bold`
                         : "text-[#191921]"
-                    } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 disabled:text-slate-400 transition-all`}
+                    } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md dark:hover:bg-gray-200 hover:bg-white disabled:text-slate-400 transition-all`}
                     disabled={
                       filterByType.length > 0 && !filterByType.includes(option)
                     }
@@ -229,14 +233,16 @@ const Pokedex = () => {
       )}
       {mobileMenu && showMobileSearch && (
         <div
-          className={`transition-all flex items-center z-[2000] mb-6 bg-slate-800 px-1 py-4 w-[90%] rounded-md fixed`}
+          className={`transition-all flex items-center justify-center z-[2000] mb-6 bg-slate-800 px-1 py-4 w-fit rounded-md fixed`}
           ref={mobileSearch}
         >
           <input
             type="text"
             placeholder="Search for Pokemon"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
             className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921] "
           />
           <div className="relative">
@@ -254,7 +260,9 @@ const Pokedex = () => {
 
             {showFilterMenu && (
               <div
-                className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase bg-white`}
+                className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 ${
+                  showMobileSearch && "top-16 -left-64"
+                } z-30 rounded-md uppercase bg-white`}
                 ref={filterMenu}
               >
                 {filterByTypeOptions.map((option) => (
@@ -281,6 +289,9 @@ const Pokedex = () => {
             )}
           </div>
         </div>
+      )}
+      {pokemonList?.length === 0 && pokemonListToBeDisplayed?.length === 0 && (
+        <div className="mt-32">No Pokemon found</div>
       )}
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
@@ -302,11 +313,10 @@ const Pokedex = () => {
                 <PokedexSinglePokemonWrapper
                   key={pokemon.name}
                   pokemon={pokemon}
-                  filterByType={filterByType}
-                  searchTerm={searchTerm}
                 />
               );
             })}
+        {/* TODO search doesnt work on iOS mobile browsers ;( */}
         {isSuccess &&
           filterByType.length === 0 &&
           pokemonList

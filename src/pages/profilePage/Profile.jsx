@@ -1,29 +1,73 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import { LogoutButton } from "../../components/Buttons/LogoutButton";
 import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
-import PokedexSinglePokemon from "../../components/Pokedex/PokedexSinglePokemon";
-import SimplePokemonInfo from "../../components/PokemonPageInfoComponents/Evolutions/SimplePokemonInfo";
-import { Link, useResolvedPath } from "react-router-dom";
 import TabsComponent from "../../components/TabsComponent/TabsComponent";
+
+import { useLocation } from "react-router-dom";
 
 import ProfileStats from "./ProfileStats";
 import { ProfileSettings } from "./ProfileSettings";
+import { useCustomUserProfile } from "../../context/CustomUserProfileContext";
+import { useMobileMenu } from "../../context/MobileMenuContext";
+import ProfilePictureModal from "./ProfilePictureModal";
 
-import TypePieChart from "./TypePieChart";
+// TODO concept - create a signup and signin routes, signup with a multi-step form that allows to choose google data preferences (show email etc), next choose profile picture from google or custom from available, next display all of them to confirm and confirm
 
 const Profile = () => {
+  const [showProfilePictureSelectModal, setShowProfilePictureSelectModal] =
+    React.useState(false);
+
   const { user } = useAuth0();
   const { caughtPokemon } = useCaughtPokemon();
-  // TODO Stats about caught pokemon, maybe a type graph, number, fav type, user since, ===> backend that stores user id (email?), caught pokemon, date of first signin
-  //TODO How do I access the above information? Context of mypokemon?
-  // TODO Split into two tabs: profile summary and profile settings (those two in dropdown on header bar loading correct pages)
-  //TODO change avatar to some preset pokemon images with selector in profile details page?
+  const { customImg, availableImgs } = useCustomUserProfile();
+  const [customUserImg, setCustomUserImg] = customImg;
 
-  // TODO profile page content goes over header bar
+  console.log();
+
+  const [mobileMenu] = useMobileMenu();
+
+  const { hash } = useLocation();
+
+  // TODO Stats about caught pokemon, maybe a type graph, number, fav type, user since, ===> backend that stores user id (email?), caught pokemon, date of first signin
+
+  //TODO change avatar to some preset pokemon images with selector in profile details page? Add ability to upload own profile picture (nope, no backend so it would be pain)? ===> picker that lets user choose from like 8 icons and 8 background colors (icons are png with transparent bg) - process it all in context
+
+  // TODO change tabcomponent here to controlled mode so that it allows a) displaying corretc one opened when coming via 'settings' link b) showing profile picture change button only on the settings page
+
+  React.useEffect(() => {
+    if (customUserImg?.img?.length === 0) {
+      setCustomUserImg(user.picture);
+    }
+  }, []);
+
   return (
-    <div className="pt-24 flex flex-col items-center">
-      <img src={user?.picture} className="rounded-full h-20 w-20" />
+    <div className="pt-24 flex flex-col items-center relative dark:bg-darkPrimary bg-white dark:text-white">
+      {showProfilePictureSelectModal && (
+        <ProfilePictureModal
+          setShowProfilePictureSelectModal={setShowProfilePictureSelectModal}
+        />
+      )}
+      <div className="relative rounded-full overflow-hidden h-28 w-28 border-2 border-white">
+        <img
+          src={customUserImg?.img ? customUserImg?.img : user?.picture}
+          className={`peer h-full w-full ${
+            customUserImg?.bg?.length > 0 ? customUserImg.bg : null
+          }`}
+        />
+        <button
+          onClick={() => {
+            setShowProfilePictureSelectModal((prev) => !prev);
+            // setCustomUserImg((prev) => {
+            //   return { ...prev, img: "/Images/userImg_Eevee.png" };
+            // });
+          }}
+          className={`absolute bg-white text-darkPrimary ${
+            mobileMenu ? "opacity-100" : "opacity-0"
+          } peer-hover:opacity-100 hover:opacity-100 w-full h-[30%] bottom-0 left-0 pb-2  text-[8px]`}
+        >
+          Change Profile Picture
+        </button>
+      </div>
       <div className="text-2xl font-bold pt-2">{user?.given_name}</div>
       <div className="text-xs text-gray-500">Joined today</div>
 
@@ -38,6 +82,7 @@ const Profile = () => {
             content: <ProfileSettings user={user} />,
           },
         ]}
+        defaultIdx={hash === "#settings" ? 1 : 0}
       />
     </div>
   );

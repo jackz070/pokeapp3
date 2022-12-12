@@ -4,10 +4,10 @@ const MobileMenuContext = React.createContext();
 MobileMenuContext.displayName = "MobileMenuContext";
 
 const MobileMenuContextProvider = (props) => {
-  const [mobileMenu, setMobileMenu] = React.useState(window.innerWidth <= 500);
+  const [mobileMenu, setMobileMenu] = React.useState(window.innerWidth <= 720);
 
   const handleWindowSizeChange = () => {
-    setMobileMenu(window.innerWidth <= 500);
+    setMobileMenu(window.innerWidth <= 720);
   };
 
   React.useEffect((props) => {

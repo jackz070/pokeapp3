@@ -4,7 +4,11 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-      colors: { darkPrimary: "#191921" },
+      colors: {
+        darkPrimary: "#191921",
+        white: "#F3F3F6",
+        trueWhite: "#FFFFFF",
+      },
       fontFamily: {
         sans: ["Open Sans"],
       },

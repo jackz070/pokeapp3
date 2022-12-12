@@ -9,11 +9,11 @@ export const ProfileSettings = ({ user }) => {
         <div className="flex items-center justify-between w-72">
           <div className="font-bold">Email</div> <div>{user.email}</div>
         </div>
-        <div className="flex items-center justify-between w-72 px-4 py-2 bg-gray-700 rounded-md mt-1">
-          <button className="text-xs px-2 py-1 bg-green-700 rounded-md hover:brightness-110">
+        <div className="flex items-center justify-between w-72 px-4 py-2 dark:bg-gray-700 bg-trueWhite rounded-md mt-1">
+          <button className="text-xs px-2 py-1 dark:bg-green-700 bg-green-400 dark:text-darkPrimary text-trueWhite rounded-md hover:brightness-110">
             Confirm email
           </button>
-          <button className="text-xs px-2 py-1 bg-yellow-600 rounded-md hover:brightness-110">
+          <button className="text-xs px-2 py-1 dark:bg-yellow-600 bg-yellow-400 dark:text-darkPrimary text-trueWhite rounded-md hover:brightness-110">
             Update email
           </button>
         </div>

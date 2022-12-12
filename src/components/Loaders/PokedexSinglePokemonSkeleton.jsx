@@ -1,6 +1,6 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
-
+// TODO light mode placeholder && use this to update shapesin current one because they are too small
 const PokedexSinglePokemonSkeleton = (props) => (
   <ContentLoader
     speed={2}

@@ -6,8 +6,12 @@ import { Link } from "react-router-dom";
 import typeColorClassChart from "../../utils/typeColorClassChart";
 
 import FilterIcon from "../../assets/FilterIcon.png";
+
+import { useMobileMenu } from "../../context/MobileMenuContext";
+import { AiOutlineSearch } from "react-icons/ai";
+
 // TODO reference to profile for stats
-// TODO wire up searching and filtering so that it works here (probably is straight copy from pokedex from before the refactor) - copy the setPokemonListToBeDisplayed stuff and connect that list with caught pokemon here
+// TODO wire up searching and filtering so that it works here (probably is straight copy from pokedex from before the refactor) - copy the setPokemonListToBeDisplayed stuff and connect that list with caught pokemon here TODO X2 because also needs to work with mobile view
 const MyPokemon = () => {
   const { caughtPokemon } = useCaughtPokemon();
 
@@ -15,6 +19,9 @@ const MyPokemon = () => {
   const [filterByType, setFilterByType] = React.useState([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
+  const [showMobileSearch, setShowMobileSearch] = React.useState(false);
+
+  const [mobileMenu] = useMobileMenu();
 
   const bar = React.useRef();
 
@@ -97,8 +104,38 @@ const MyPokemon = () => {
     }
   };
 
+  const mobileSearch = React.useRef();
+  const mobileSearchButton = React.useRef();
+  React.useEffect(() => {
+    const handleClick = (e) => {
+      if (
+        !mobileSearchButton.current.contains(e.target) &&
+        !mobileSearch?.current?.contains(e.target)
+      ) {
+        setShowMobileSearch(false);
+      }
+    };
+
+    if (showMobileSearch) {
+      document.addEventListener("click", handleClick);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, [showMobileSearch]);
+
   return (
-    <section className="flex flex-col items-center justify-center ">
+    <section className="flex flex-col items-center justify-center dark:bg-[#191921] bg-white ">
+      {mobileMenu && (
+        <button
+          onClick={() => setShowMobileSearch((prev) => !prev)}
+          className="text-xs fixed top-7 right-14 z-[1500]"
+          ref={mobileSearchButton}
+        >
+          <AiOutlineSearch className="w-6 h-6" />
+        </button>
+      )}
       {caughtPokemon.length === 0 && (
         <div className="h-screen max-w-[15rem] flex flex-col justify-center items-center">
           <h2 className="uppercase text-xl font-bold">No Pokemon Caught</h2>
@@ -111,8 +148,8 @@ const MyPokemon = () => {
           </p>
         </div>
       )}
-      <div className="pt-28 bg-[#191921] flex flex-col items-center justify-center ">
-        {caughtPokemon.length !== 0 && (
+      <div className="pt-28  flex flex-col items-center justify-center ">
+        {caughtPokemon.length !== 0 && !mobileMenu && (
           <div
             className={`transition-all flex items-center z-50 mb-12 justify-center ${
               headerOnTop ? "fixed top-[25px] " : null
@@ -160,6 +197,64 @@ const MyPokemon = () => {
                     >
                       {option[0].toUpperCase() + option.substring(1)}
                     </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        {mobileMenu && showMobileSearch && (
+          <div
+            className={`transition-all flex items-center justify-center z-[2000] mb-6 bg-slate-800 px-1 py-4 w-fit rounded-md fixed`}
+            ref={mobileSearch}
+          >
+            <input
+              type="text"
+              placeholder="Search for Pokemon"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921] "
+            />
+            <div className="relative">
+              <button
+                onClick={() => setShowFilterMenu((prev) => !prev)}
+                className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
+                  showFilterMenu ? "border-[white] hover:border-[white]" : null
+                }`}
+              >
+                <img src={FilterIcon} ref={filterMenuButton} />
+                {filterByType.length !== 0 && (
+                  <div className="w-3 h-3 bg-red-500 absolute right-1 bottom-1 rounded-full"></div>
+                )}
+              </button>
+
+              {showFilterMenu && (
+                <div
+                  className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 ${
+                    showMobileSearch && "top-16 -left-64"
+                  } z-30 rounded-md uppercase bg-white`}
+                  ref={filterMenu}
+                >
+                  {filterByTypeOptions.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => handleFilterClick(option)}
+                      className={`${
+                        filterByType.includes(option)
+                          ? `${
+                              typeColorClassChart[
+                                option[0].toUpperCase() + option.substring(1)
+                              ]
+                            } font-bold`
+                          : "text-[#191921]"
+                      } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 disabled:text-slate-400 transition-all`}
+                      disabled={
+                        filterByType.length > 0 &&
+                        !filterByType.includes(option)
+                      }
+                    >
+                      {option[0].toUpperCase() + option.substring(1)}
+                    </button>
                   ))}
                 </div>
               )}

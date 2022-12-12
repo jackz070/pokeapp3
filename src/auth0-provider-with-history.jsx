@@ -2,8 +2,6 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-// TODO Fucking callback page reditecy DOESN'T WORK
-
 export const Auth0ProviderWithHistory = ({ children }) => {
   const navigate = useNavigate();
 

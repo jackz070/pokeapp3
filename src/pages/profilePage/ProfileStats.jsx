@@ -21,11 +21,11 @@ const ProfileStats = ({ caughtPokemon }) => {
         </div>
       )}
       {caughtPokemon.length > 0 && (
-        <div>
+        <h5 className="mb-2 text-sm mx-auto">
           So far you've marked {caughtPokemon.length} Pokemon as caught:
-        </div>
+        </h5>
       )}
-      <div className={`flex items-center justify-center mt-2 min-w-[65%] `}>
+      <div className={`flex items-center justify-center mt-2 min-w-[65%] mb-6`}>
         {caughtPokemon?.slice(0, 4).map((pokemonNumber) => (
           <SimplePokemonInfo
             key={pokemonNumber}
@@ -41,7 +41,7 @@ const ProfileStats = ({ caughtPokemon }) => {
       </div>
       {caughtPokemon.length > 0 && (
         <div>
-          <div>Type distribution:</div>
+          <h5 className="pb-4 text-sm mx-auto">Type distribution:</h5>
           <TypePieChart />
         </div>
       )}
