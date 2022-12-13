@@ -33,8 +33,6 @@ const Ability = ({ ability }) => {
     ) {
       setIsScrollable(true);
     }
-
-    console.log(isScrollable);
   }, [showAbilityPopup]);
 
   return (

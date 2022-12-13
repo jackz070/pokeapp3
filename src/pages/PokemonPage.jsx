@@ -66,7 +66,6 @@ const PokemonPage = ({ id }) => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  console.log(thisPokemon, thisPokemonDetails);
 
   return (
     <div className="flex flex-col items-center pt-32 z-40  max-w-[800px] mx-auto w-full">

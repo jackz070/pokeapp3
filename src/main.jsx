@@ -1,15 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Route, Routes } from "react-router-dom";
 
 import AppProviders from "./AppProviders";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Auth0ProviderWithHistory } from "./auth0-provider-with-history";
-
 import App from "./App";
-
 import PokemonPage from "./pages/PokemonPage";
 import PokemonOfTheDay from "./pages/PokemonOfTheDay";
 import CallbackPage from "./pages/CallbackPage";
@@ -18,16 +13,7 @@ import Pokedex from "./components/Pokedex/Pokedex";
 import Profile from "./pages/profilePage/Profile";
 import LoggedInRoute from "./components/LoggedInRoute";
 
-import { CaughtPokemonProvider } from "./context/CaughtPokemonContext";
-import { PokedexSettingsProvider } from "./context/PokedexSettingsContext";
-import { MobileMenuContextProvider } from "./context/MobileMenuContext";
-import { CustomUserProfileContextProvider } from "./context/CustomUserProfileContext";
-
-import history from "./utils/history";
-
 import "./index.css";
-
-const queryClient = new QueryClient();
 
 document.fonts.ready.then(() => {
   ReactDOM.createRoot(document.getElementById("root")).render(
@@ -43,9 +29,6 @@ document.fonts.ready.then(() => {
             path="/profile"
             element={<LoggedInRoute element={Profile} />}
           />
-          {/* <Route element={<LoggedInRoute />}>
-                    <Route path="/profile" element={<Profile />} />
-                  </Route> */}
         </Route>
       </Routes>
     </AppProviders>

@@ -1,11 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import { useCustomUserProfile } from "../../context/CustomUserProfileContext";
-import { useMobileMenu } from "../../context/MobileMenuContext";
-
-import BlurredBackground from "./BlurredBackground";
-
 import Button from "../../components/Buttons/Button";
+import BlurredBackground from "./BlurredBackground";
 
 const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
   const { customImg, availableImgs, availableBgColors } =
@@ -14,9 +11,6 @@ const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
 
   const [prevUserImg, setPrevUserImg] = React.useState(customUserImg.img);
   const [prevUserBg, setPrevUserBg] = React.useState(customUserImg.bg);
-
-  console.log(customUserImg, prevUserImg);
-  const [mobileMenu] = useMobileMenu();
 
   const handleSetCustomUserImgClick = (availableImg) => {
     if (customUserImg.img === availableImg) {

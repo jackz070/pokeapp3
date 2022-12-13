@@ -1,13 +1,7 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import LoadingSpinner from "../../Loaders/LoadingSpinner";
 import AbilitiesToDisplay from "./AbilitiesToDisplay";
 
-import { replaceHyphenWithSpaceAndCapitalize } from "../../../utils/text-formatting";
-
-const About = ({ thisPokemon, thisPokemonDetails, isLoading, isSuccess }) => {
-  console.log(thisPokemon);
-
+const About = ({ thisPokemon, thisPokemonDetails }) => {
   const flavorTextToDisplay = (thisPokemonDetails) => {
     if (thisPokemonDetails?.flavor_text_entries[1]?.language.name === "en") {
       return thisPokemonDetails?.flavor_text_entries[1]?.flavor_text;

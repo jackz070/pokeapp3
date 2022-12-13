@@ -8,7 +8,6 @@ export const LogoutButton = () => {
   const { setCaughtPokemon } = useCaughtPokemon();
 
   const handleLogout = () => {
-    console.log(window.location.origin);
     setCaughtPokemon([]);
     try {
       logout({

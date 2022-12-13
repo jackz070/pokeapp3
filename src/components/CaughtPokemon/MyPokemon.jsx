@@ -82,7 +82,6 @@ const MyPokemon = () => {
         !filterMenuButton.current.contains(e.target) &&
         !filterMenu?.current?.contains(e.target)
       ) {
-        console.log(e.target, filterMenuButton);
         setShowFilterMenu(false);
       }
     };

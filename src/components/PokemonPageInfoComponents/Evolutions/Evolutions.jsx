@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../Loaders/LoadingSpinner";
 import SimplePokemonInfo from "./SimplePokemonInfo";
 import EvolutionDetailsAndTriggers from "./EvolutionDetailsAndTriggers";
-import MobileMenu from "../../NavHeaderMenu/MobileMenu";
 import { useMobileMenu } from "../../../context/MobileMenuContext";
 
 const Evolutions = ({ thisPokemonDetails }) => {
@@ -16,7 +15,6 @@ const Evolutions = ({ thisPokemonDetails }) => {
   } = useQuery(["pokemonEvolutionChain", url], () => {
     return fetch(url).then((res) => res.json());
   });
-  console.log(thisPokemonEvolutionChain);
 
   // TODO add other evolution requirements if showing all generations
 

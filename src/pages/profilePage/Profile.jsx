@@ -22,8 +22,6 @@ const Profile = () => {
   const { customImg, availableImgs } = useCustomUserProfile();
   const [customUserImg, setCustomUserImg] = customImg;
 
-  console.log();
-
   const [mobileMenu] = useMobileMenu();
 
   const { hash } = useLocation();

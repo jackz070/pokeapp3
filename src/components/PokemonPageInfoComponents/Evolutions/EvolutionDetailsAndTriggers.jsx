@@ -7,9 +7,7 @@ import {
 
 const EvolutionDetailsAndTriggers = ({ evolutionDetails }) => {
   const evolutionDetailsInfo = (evolutionDetails) => {
-    console.log(evolutionDetails.min_level);
     if (evolutionDetails?.min_level) {
-      console.log("min lvl");
       return `Min. Level ${evolutionDetails?.min_level}`;
     }
 
@@ -38,8 +36,10 @@ const EvolutionDetailsAndTriggers = ({ evolutionDetails }) => {
 
   const evolutionTriggersInfo = (evolutionDetails) => {
     if (evolutionDetails?.trigger?.name) {
-      if (evolutionDetails?.trigger?.name === "use-item"){return "Trigger: Use Item" }
-        return `Trigger: ${capitalize(evolutionDetails.trigger.name)}`;
+      if (evolutionDetails?.trigger?.name === "use-item") {
+        return "Trigger: Use Item";
+      }
+      return `Trigger: ${capitalize(evolutionDetails.trigger.name)}`;
     }
   };
 
