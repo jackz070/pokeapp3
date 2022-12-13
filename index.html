@@ -14,9 +14,29 @@
       rel="stylesheet"
     />
     <title>PokeApp 3.0</title>
+    <script>
+      function setDarkMode() {
+        if (
+          localStorage.theme === "dark" ||
+          (
+            !("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)")
+          ).matches
+        ) {
+          document.body.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.body.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+      }
+    </script>
   </head>
-  <body>
-    <div id="root" class="min-h-screen"></div>
+  <body onLoad="setDarkMode()">
+    <div
+      id="root"
+      class="min-h-screen dark:bg-darkPrimary dark:text-white text-darkPrimary bg-white"
+    ></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

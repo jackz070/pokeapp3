@@ -5,21 +5,17 @@ DarkModeContext.displayName = "DarkModeContext";
 
 // TODO now that changes are visible make it work: persist chosen theme, check system preferences
 const DarkModeContextProvider = (props) => {
-  const [darkMode, setDarkMode] = React.useState(false);
+  function setDarkTheme() {
+    localStorage.theme = "dark";
+    document.body.classList.add("dark");
+  }
 
-  React.useEffect(() => {
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      setDarkMode(true);
-    } else {
-      setDarkMode(false);
-    }
-  }, []);
+  function setLightTheme() {
+    localStorage.theme = "light";
+    document.body.classList.remove("dark");
+  }
 
-  const value = [darkMode, setDarkMode];
+  const value = [setDarkTheme, setLightTheme];
   return <DarkModeContext.Provider value={value} {...props} />;
 };
 

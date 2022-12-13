@@ -8,7 +8,6 @@ import DarkModeSwitch from "../../utils/DarkModeSwitch";
 
 const MobileMenu = ({ setDisplayMobileMenu }) => {
   const handleClickOutsideElements = (e) => {
-    console.log(e.target.tagName);
     if (e.target.tagName !== "DIV" && e.target.tagName !== "svg") {
       setDisplayMobileMenu(false);
     }

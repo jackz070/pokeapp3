@@ -1,19 +1,16 @@
 import React from "react";
 import { usePokemon } from "../../utils/api-client";
 import TypeChip from "../TypeChip";
-import LoadingSpinner from "../Loaders/LoadingSpinner";
 import { Link } from "react-router-dom";
 import typeColorClassChartBg from "../../utils/typeColorClassChart-bg";
-import { useInView } from "react-intersection-observer";
-import PokedexSinglePokemonSkeleton from "../Loaders/PokedexSinglePokemonSkeleton";
+import PokedexSinglePokemonSkeletonDark from "../Loaders/PokedexSinglePokemonSkeletonDark";
 
 import { capitalize } from "../../utils/text-formatting";
 
 import AddRemoveMyPokemonButton from "../CaughtPokemon/AddRemoveMyPokemonButton";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 
-const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
-  const [isToBeDisplayed, setIsToBeDisplayed] = React.useState(true);
+const PokedexSinglePokemon = ({ pokemon }) => {
   const [hovered, setHovered] = React.useState(false);
 
   const {
@@ -31,22 +28,9 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
   function getTypes(thisPokemon) {
     thisPokemon?.types?.map((type) => types.push(type.type.name));
   }
-  // React.useEffect(() => {
-  //   setIsToBeDisplayed(true);
-  //   if (
-  //     (filterByType?.length > 0 &&
-  //       !types?.some((type) => filterByType.includes(type))) ||
-  //     (searchTerm?.length > 0 && !thisPokemon.name.includes(searchTerm))
-  //   ) {
-  //     setIsToBeDisplayed(false);
-  //   }
-  // }, [filterByType, searchTerm]);
-  // if (!isToBeDisplayed) {
-  //   return null;
-  // }
 
   if (isLoading) {
-    return <PokedexSinglePokemonSkeleton />;
+    return <PokedexSinglePokemonSkeletonDark />;
   }
   if (isError) {
     return <div>Error</div>;
@@ -58,7 +42,6 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* {isLoading && <LoadingSpinner size={"small"} />} */}
         {!mobileMenu && (
           <div className="absolute top-[86px] right-8 z-10">
             <AddRemoveMyPokemonButton
@@ -71,7 +54,7 @@ const PokedexSinglePokemon = ({ pokemon, filterByType, searchTerm }) => {
           <div
             className={`bg-gradient-radial ${
               typeColorClassChartBg[thisPokemon?.types[0]?.type.name]
-            } via-[rgba(0,0,0,0)] absolute -top-3 left-2  h-[200px] w-[200px] ${
+            } via-[rgba(0,0,0,0)] absolute -top-3 -left-4  h-[200px] w-[200px] ${
               hovered
                 ? "dark:opacity-20 opacity-60"
                 : "dark:opacity-10 opacity-50"

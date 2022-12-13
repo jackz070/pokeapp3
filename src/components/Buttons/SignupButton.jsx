@@ -15,7 +15,7 @@ export const SignupButton = () => {
 
   return (
     <button
-      className="text-white px-8 py-2 tracking-wider outline-none rounded-sm hover:brightness-105 active:scale-[.98] active:shadow-sm"
+      className="dark:text-white text-darkPrimary px-8 py-2 tracking-wider outline-none rounded-sm hover:brightness-105 active:scale-[.98] active:shadow-sm"
       onClick={handleSignUp}
     >
       Sign Up

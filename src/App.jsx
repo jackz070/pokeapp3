@@ -6,7 +6,7 @@ import Nav from "./components/NavHeaderMenu/Nav";
 import { Outlet } from "react-router-dom";
 
 import { useMobileMenu } from "./context/MobileMenuContext";
-import { useDarkMode } from "./context/DarkModeContext";
+
 
 function App() {
   const [sideNavIsOpen, setSideNavIsOpen] = React.useState(false);
@@ -23,14 +23,10 @@ function App() {
 
   const [mobileMenu] = useMobileMenu();
 
-  const [darkMode, setDarkMode] = useDarkMode();
+
 
   return (
-    <div
-      className={`relative ${
-        darkMode ? "dark" : null
-      } dark:bg-darkPrimary dark:text-white bg-white text-darkPrimary`}
-    >
+    <div className={`relative `}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Header />
         {!mobileMenu && (

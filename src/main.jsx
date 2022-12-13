@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import AppProviders from "./AppProviders";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -20,7 +22,6 @@ import { CaughtPokemonProvider } from "./context/CaughtPokemonContext";
 import { PokedexSettingsProvider } from "./context/PokedexSettingsContext";
 import { MobileMenuContextProvider } from "./context/MobileMenuContext";
 import { CustomUserProfileContextProvider } from "./context/CustomUserProfileContext";
-import { DarkModeContextProvider } from "./context/DarkModeContext";
 
 import history from "./utils/history";
 
@@ -30,40 +31,23 @@ const queryClient = new QueryClient();
 
 document.fonts.ready.then(() => {
   ReactDOM.createRoot(document.getElementById("root")).render(
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter history={history}>
-        <CaughtPokemonProvider>
-          <PokedexSettingsProvider>
-            <MobileMenuContextProvider>
-              <CustomUserProfileContextProvider>
-                <DarkModeContextProvider>
-                  <Auth0ProviderWithHistory>
-                    <Routes>
-                      <Route element={<App />}>
-                        <Route index element={<Pokedex />} />
-                        <Route
-                          path="/pokemon/:pokemonNumber"
-                          element={<PokemonPage />}
-                        />
-                        <Route path="/my-pokemon" element={<MyPokemon />} />
-                        <Route path="/potd" element={<PokemonOfTheDay />} />
-                        <Route path="/callback" element={<CallbackPage />} />
-                        <Route
-                          path="/profile"
-                          element={<LoggedInRoute element={Profile} />}
-                        />
-                        {/* <Route element={<LoggedInRoute />}>
+    <AppProviders>
+      <Routes>
+        <Route element={<App />}>
+          <Route index element={<Pokedex />} />
+          <Route path="/pokemon/:pokemonNumber" element={<PokemonPage />} />
+          <Route path="/my-pokemon" element={<MyPokemon />} />
+          <Route path="/potd" element={<PokemonOfTheDay />} />
+          <Route path="/callback" element={<CallbackPage />} />
+          <Route
+            path="/profile"
+            element={<LoggedInRoute element={Profile} />}
+          />
+          {/* <Route element={<LoggedInRoute />}>
                     <Route path="/profile" element={<Profile />} />
                   </Route> */}
-                      </Route>
-                    </Routes>
-                  </Auth0ProviderWithHistory>
-                </DarkModeContextProvider>
-              </CustomUserProfileContextProvider>
-            </MobileMenuContextProvider>
-          </PokedexSettingsProvider>
-        </CaughtPokemonProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+        </Route>
+      </Routes>
+    </AppProviders>
   );
 });

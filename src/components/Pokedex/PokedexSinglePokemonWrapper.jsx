@@ -1,6 +1,6 @@
 import React from "react";
 import PokedexSinglePokemon from "./PokedexSinglePokemon";
-import PokedexSinglePokemonSkeleton from "../Loaders/PokedexSinglePokemonSkeleton";
+import PokedexSinglePokemonSkeletonDark from "../Loaders/PokedexSinglePokemonSkeletonDark";
 
 import { useInView } from "react-intersection-observer";
 
@@ -12,7 +12,7 @@ const PokedexSinglePokemonWrapper = ({ pokemon, filterByType, searchTerm }) => {
 
   return (
     <div ref={ref}>
-      {!inView && <PokedexSinglePokemonSkeleton />}
+      {!inView && <PokedexSinglePokemonSkeletonDark />}
       {inView && (
         <PokedexSinglePokemon
           pokemon={pokemon}

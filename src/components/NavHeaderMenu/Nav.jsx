@@ -10,7 +10,7 @@ import star from "../../assets/nav_star.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 
-const Nav = ({ sideNavIsOpen, setSideNavIsOpen }) => {
+const Nav = () => {
   const { isAuthenticated } = useAuth0();
   const [mobileMenu] = useMobileMenu();
   return (
@@ -19,8 +19,6 @@ const Nav = ({ sideNavIsOpen, setSideNavIsOpen }) => {
         !mobileMenu &&
         "w-auto max-w-[80px] hover:max-w-[254px] top-[22vh] fixed overflow-hidden h-fit  mt-16 "
       } flex flex-col gap-4 transition-all p-4 pr-0 pl-0 z-[5000]`}
-      // onMouseEnter={() => setSideNavIsOpen(true)}
-      // onMouseLeave={() => setSideNavIsOpen(false)}
     >
       <Link
         to="/"

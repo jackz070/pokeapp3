@@ -10,11 +10,10 @@ import { CaughtPokemonProvider } from "./context/CaughtPokemonContext";
 import { PokedexSettingsProvider } from "./context/PokedexSettingsContext";
 import { MobileMenuContextProvider } from "./context/MobileMenuContext";
 import { CustomUserProfileContextProvider } from "./context/CustomUserProfileContext";
-import { DarkModeContextProvider } from "./context/DarkModeContext";
 
 import history from "./utils/history";
 
-const AppProviders = (children) => {
+const AppProviders = ({ children }) => {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
@@ -23,11 +22,7 @@ const AppProviders = (children) => {
           <PokedexSettingsProvider>
             <MobileMenuContextProvider>
               <CustomUserProfileContextProvider>
-                <DarkModeContextProvider>
-                  <Auth0ProviderWithHistory>
-                    {children}
-                  </Auth0ProviderWithHistory>
-                </DarkModeContextProvider>
+                <Auth0ProviderWithHistory>{children}</Auth0ProviderWithHistory>
               </CustomUserProfileContextProvider>
             </MobileMenuContextProvider>
           </PokedexSettingsProvider>
