@@ -1,11 +1,13 @@
 <h1>PokeApp 3.0</h1>
-<hr><p>Expanded Pokedex app</p><h2>General Information</h2>
+<hr><p>Expanded Pokedex app designed and created for learning purpose</p><h2>General Information</h2>
 <hr><ul>
-<li>PokeApp 3.0 is a Pokedex app serving data from PokeAPI created with React, Tailwind,</li>
+<li>PokeApp 3.0 is a Pokedex app serving data from PokeAPI created with HTML, React, Tailwind, React-Query and a number of smaller libraries </li>
 </ul><ul>
 <li>It's a practice project meant to serve widely-available information in an interesting, consistent way.</li>
 </ul><ul>
 <li>Learning and practicing usage of HTML, React, Tailwind, React-Query. Big challenges included fetching large amounts of data in an efficient way, handling deeply-nested and filled with reference urls responses from PokeAPI, debugging issues coming from React, third-party libraries and those specific to environment (iOS).</li>
+</ul><ul>
+<li>The process of creating this app was very enjoyable. It's work in progress, but all the refactors, bugs, read threads on Stack Overflow and realizations of dead-ends made it a great experience.</li>
 </ul><h2>Technologies Used</h2>
 <hr><ul>
 <li>HTML</li>
@@ -32,8 +34,8 @@
 <li>Ability to mark Pokemon as caught, check that list and type distribution visualised with a pie-chart. Normally this functionality would be available for users who log in only, but as I have no backend here to store data for users it's available publicly and persisted only via local storage.</li>
 </ul><ul>
 <li>Acknowledging bug: Pokemon search functionality doesn't work on iOS and I have no idea on how to fix it.</li>
-</ul><h2>Project Status</h2>
-<hr><p>In Progress</p><h2>Live Version: <p><a href="https://radiant-choux-0a80ea.netlify.app/">https://radiant-choux-0a80ea.netlify.app/</a></p><h2>Acknowledgement</h2>
+</ul><h2>Project Status: In Progress</h2>
+<h2>Live Version:</h2> <p><a href="https://radiant-choux-0a80ea.netlify.app/">https://radiant-choux-0a80ea.netlify.app/</a></p><h2>Acknowledgements</h2>
 <hr><ul>
 <li>Thanks to the PokeAPI - my favourite (and challenging) free Public API!</li>
 </ul><ul>
