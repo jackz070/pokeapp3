@@ -7,7 +7,8 @@ import { Outlet } from "react-router-dom";
 
 import { useMobileMenu } from "./context/MobileMenuContext";
 
-
+// TODO fix assets for github pages deploy according to https://github.com/sitek94/vite-deploy-demo
+// TODO get auth ready for deployment, probably needs something regarding secure origin & for sure adding all the URLs, also has some settings for dev => prod
 function App() {
   const [sideNavIsOpen, setSideNavIsOpen] = React.useState(false);
 
@@ -22,8 +23,6 @@ function App() {
   }
 
   const [mobileMenu] = useMobileMenu();
-
-
 
   return (
     <div className={`relative `}>

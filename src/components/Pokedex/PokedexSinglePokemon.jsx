@@ -35,6 +35,11 @@ const PokedexSinglePokemon = ({ pokemon }) => {
   if (isError) {
     return <div>Error</div>;
   }
+
+  if (isSuccess && thisPokemon.is_default === false) {
+    return null;
+  }
+
   if (isSuccess) {
     return (
       <div

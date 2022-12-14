@@ -27,9 +27,9 @@
 </ul><ul>
 <li>Cool gradient backgrounds for Pokemon (colored based on types!)</li>
 </ul><ul>
-<li>Ability to authenticate using Auth0 and change profile picture to select custom images &amp; backgrounds</li>
+<li>Ability to authenticate with Google using Auth0 and change profile picture to select custom images &amp; backgrounds. This functionality is a mock-up in a sense that there is no backend, no accounts are created, users are not kept track of at all.</li>
 </ul><ul>
-<li>Ability to mark Pokemon as caught, check that list and type distribution visualised with a pie-chart</li>
+<li>Ability to mark Pokemon as caught, check that list and type distribution visualised with a pie-chart. Normally this functionality would be available for users who log in only, but as I have no backend here to store data for users it's available publicly and persisted only via local storage.</li>
 </ul><h2>Project Status</h2>
 <hr><p>In Progress</p><h2>Acknowledgement</h2>
 <hr><ul>

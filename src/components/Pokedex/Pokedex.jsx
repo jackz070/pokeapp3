@@ -22,6 +22,7 @@ const Pokedex = () => {
   const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] =
     React.useState([]);
   const [showMobileSearch, setShowMobileSearch] = React.useState(false);
+  const [notFound, setNotFound] = React.useState(false);
 
   const [limit, setLimit] = usePokedexSettings();
   const { pokemonList, isLoading, isError, isSuccess } = usePokemonList(limit);
@@ -46,6 +47,17 @@ const Pokedex = () => {
       };
     }
   }, []);
+
+  React.useEffect(() => {
+    setNotFound(false);
+    if (
+      pokemonList?.filter((pokemonListItem) =>
+        pokemonListItem?.name.includes(searchTerm)
+      ).length === 0
+    ) {
+      setNotFound(true);
+    }
+  }, [searchTerm]);
 
   return (
     <div className="flex flex-col items-center pt-20 dark:bg-darkPrimary bg-white max-w-[1280px] mx-auto relative">
@@ -86,9 +98,7 @@ const Pokedex = () => {
           setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
         />
       )}
-      {pokemonList?.length === 0 && pokemonListToBeDisplayed?.length === 0 && (
-        <div className="mt-32">No Pokemon found</div>
-      )}
+      {notFound && <div className="mt-32">No Pokemon found</div>}
       {isLoading && <FullScreenLoading />}
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
@@ -96,7 +106,6 @@ const Pokedex = () => {
         }`}
       >
         {isError && "Error"}
-
         {isSuccess &&
           filterByType.length > 0 &&
           pokemonListToBeDisplayed
@@ -118,6 +127,7 @@ const Pokedex = () => {
             .filter((pokemonListItem) =>
               pokemonListItem?.name.includes(searchTerm)
             )
+
             .map((pokemon) => {
               return (
                 <PokedexSinglePokemonWrapper
