@@ -2,9 +2,10 @@ import React from "react";
 
 import iconLight from "../assets/icon-light.png";
 import iconDark from "../assets/icon-dark.png";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const DarkModeSwitch = ({ small }) => {
-  const [darkMode, setDarkMode] = React.useState(localStorage.theme === "dark");
+  const [darkMode, setDarkMode] = useDarkMode();
 
   const handleChange = () => {
     if (darkMode) {

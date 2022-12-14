@@ -1,14 +1,13 @@
 import React from "react";
 import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
-import PokedexSinglePokemon from "../Pokedex/PokedexSinglePokemon";
 import { Link } from "react-router-dom";
 
-import typeColorClassChart from "../../utils/typeColorClassChart";
-
-import FilterIcon from "../../assets/FilterIcon.png";
-
+import MobileSearchAndFilter from "../Pokedex/MobileSearchAndFilter";
+import DesktopSearchAndFilter from "../Pokedex/DesktopSearchAndFilter";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 import { AiOutlineSearch } from "react-icons/ai";
+import FullScreenLoading from "../Loaders/FullScreenLoading";
+import PokedexSinglePokemonWrapper from "../Pokedex/PokedexSinglePokemonWrapper";
 
 // TODO reference to profile for stats
 // TODO wire up searching and filtering so that it works here (probably is straight copy from pokedex from before the refactor) - copy the setPokemonListToBeDisplayed stuff and connect that list with caught pokemon here TODO X2 because also needs to work with mobile view
@@ -20,121 +19,44 @@ const MyPokemon = () => {
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
   const [showMobileSearch, setShowMobileSearch] = React.useState(false);
+  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] =
+    React.useState([]);
+  const [notFound, setNotFound] = React.useState(false);
 
   const [mobileMenu] = useMobileMenu();
 
-  const bar = React.useRef();
-
-  const filterByTypeOptions = [
-    "normal",
-    "fire",
-    "water",
-    "grass",
-    "flying",
-    "fighting",
-    "poison",
-    "electric",
-    "ground",
-    "rock",
-    "psychic",
-    "ice",
-    "bug",
-    "ghost",
-    "steel",
-    "dragon",
-    "dark",
-    "fairy",
-  ];
-
-  const closeFilterMenu = () => {
-    setShowFilterMenu(false);
-  };
-  const filterMenuButton = React.useRef();
-
-  const pokedex = React.useRef();
-
-  const filterMenu = React.useRef();
-
+  // State for sticking the search bar on top when scrolling
   const handleScroll = () => {
     const position = window.scrollY;
-    position <= 79 ? setHeaderOnTop(false) : setHeaderOnTop(true);
+    position <= 45 ? setHeaderOnTop(false) : setHeaderOnTop(true);
   };
 
+  // Logic for sticking the search bar on top when scrolling, useLayoutEffect instead of useEffect because it's realted to scrolling events
   React.useLayoutEffect(() => {
-    if (searchTerm.length === 0 && filterByType.length === 0) {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-    }
+    if (!mobileMenu) {
+      if (searchTerm.length === 0 && filterByType.length === 0) {
+        window.addEventListener("scroll", handleScroll, { passive: true });
+      }
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
 
   React.useEffect(() => {
-    if (headerOnTop && (searchTerm.length > 0 || filterByType.length > 0)) {
-      window.scroll({ top: 80, left: 0, behavior: "smooth" });
+    setNotFound(false);
+    if (
+      caughtPokemon?.filter((pokemonListItem) =>
+        pokemonListItem?.includes(searchTerm)
+      ).length === 0
+    ) {
+      setNotFound(true);
     }
-  }, [searchTerm, filterByType]);
-
-  React.useEffect(() => {
-    const handleClick = (e) => {
-      if (
-        !filterMenuButton.current.contains(e.target) &&
-        !filterMenu?.current?.contains(e.target)
-      ) {
-        setShowFilterMenu(false);
-      }
-    };
-
-    if (showFilterMenu) {
-      document.addEventListener("click", handleClick);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [showFilterMenu]);
-
-  const handleFilterClick = (option) => {
-    if (filterByType.includes(option)) {
-      setFilterByType((prev) => prev.filter((type) => type !== option));
-    } else if (!filterByType.includes(option)) {
-      setFilterByType((prev) => [...prev, option]);
-    }
-  };
-
-  const mobileSearch = React.useRef();
-  const mobileSearchButton = React.useRef();
-  React.useEffect(() => {
-    const handleClick = (e) => {
-      if (
-        !mobileSearchButton.current.contains(e.target) &&
-        !mobileSearch?.current?.contains(e.target)
-      ) {
-        setShowMobileSearch(false);
-      }
-    };
-
-    if (showMobileSearch) {
-      document.addEventListener("click", handleClick);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [showMobileSearch]);
+  }, [searchTerm]);
 
   return (
-    <section className="flex flex-col items-center justify-center dark:bg-[#191921] bg-white ">
-      {mobileMenu && (
-        <button
-          onClick={() => setShowMobileSearch((prev) => !prev)}
-          className="text-xs fixed top-7 right-14 z-[1500]"
-          ref={mobileSearchButton}
-        >
-          <AiOutlineSearch className="w-6 h-6" />
-        </button>
-      )}
+    <div className="flex flex-col items-center pt-20 dark:bg-darkPrimary bg-white max-w-[1280px] mx-auto relative">
       {caughtPokemon.length === 0 && (
         <div className="h-screen max-w-[15rem] flex flex-col justify-center items-center">
           <h2 className="uppercase text-xl font-bold">No Pokemon Caught</h2>
@@ -147,136 +69,65 @@ const MyPokemon = () => {
           </p>
         </div>
       )}
-      <div className="pt-28  flex flex-col items-center justify-center ">
-        {caughtPokemon.length !== 0 && !mobileMenu && (
-          <div
-            className={`transition-all flex items-center z-50 mb-12 justify-center ${
-              headerOnTop ? "fixed top-[25px] " : null
-            }`}
-          >
-            <input
-              ref={bar}
-              type="text"
-              placeholder="Search for Pokemon"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921]"
-            />
-            <div className="relative">
-              <button
-                onClick={() => setShowFilterMenu((prev) => !prev)}
-                className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
-                  showFilterMenu ? "border-[white] hover:border-[white]" : null
-                }`}
-              >
-                <img src={FilterIcon} ref={filterMenuButton} />
-                {filterByType.length !== 0 && (
-                  <div className="w-3 h-3 bg-red-500 absolute right-1 bottom-1 rounded-full"></div>
-                )}
-              </button>
-
-              {showFilterMenu && (
-                <div
-                  className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 z-30 rounded-md uppercase bg-white`}
-                  ref={filterMenu}
-                >
-                  {filterByTypeOptions.map((option) => (
-                    <div
-                      key={option}
-                      onClick={() => handleFilterClick(option)}
-                      className={`${
-                        filterByType.includes(option)
-                          ? `${
-                              typeColorClassChart[
-                                option[0].toUpperCase() + option.substring(1)
-                              ]
-                            } font-bold`
-                          : "text-[#191921]"
-                      } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 transition-all`}
-                    >
-                      {option[0].toUpperCase() + option.substring(1)}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-        {mobileMenu && showMobileSearch && (
-          <div
-            className={`transition-all flex items-center justify-center z-[2000] mb-6 bg-slate-800 px-1 py-4 w-fit rounded-md fixed`}
-            ref={mobileSearch}
-          >
-            <input
-              type="text"
-              placeholder="Search for Pokemon"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="leading-loose px-8 py-1 bg-whitetext-gray-700 rounded-xl text-[#191921] "
-            />
-            <div className="relative">
-              <button
-                onClick={() => setShowFilterMenu((prev) => !prev)}
-                className={`p-1 ml-4 border-[#191921] border-2 rounded-full hover:border-gray-600 ${
-                  showFilterMenu ? "border-[white] hover:border-[white]" : null
-                }`}
-              >
-                <img src={FilterIcon} ref={filterMenuButton} />
-                {filterByType.length !== 0 && (
-                  <div className="w-3 h-3 bg-red-500 absolute right-1 bottom-1 rounded-full"></div>
-                )}
-              </button>
-
-              {showFilterMenu && (
-                <div
-                  className={`grid grid-cols-3 absolute h-60 w-80 top-12 left-5 ${
-                    showMobileSearch && "top-16 -left-64"
-                  } z-30 rounded-md uppercase bg-white`}
-                  ref={filterMenu}
-                >
-                  {filterByTypeOptions.map((option) => (
-                    <button
-                      key={option}
-                      onClick={() => handleFilterClick(option)}
-                      className={`${
-                        filterByType.includes(option)
-                          ? `${
-                              typeColorClassChart[
-                                option[0].toUpperCase() + option.substring(1)
-                              ]
-                            } font-bold`
-                          : "text-[#191921]"
-                      } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md hover:bg-gray-200 disabled:text-slate-400 transition-all`}
-                      disabled={
-                        filterByType.length > 0 &&
-                        !filterByType.includes(option)
-                      }
-                    >
-                      {option[0].toUpperCase() + option.substring(1)}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-        <div
-          className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
-            headerOnTop ? "mt-24" : null
-          }`}
-          ref={pokedex}
+      {mobileMenu && (
+        <button
+          onClick={() => setShowMobileSearch((prev) => !prev)}
+          className="text-xs fixed top-7 right-14 z-[6000]"
+          // ref={mobileSearchButton}
         >
-          {caughtPokemon?.map((pokemonNumber) => (
-            <PokedexSinglePokemon
-              pokemon={{ name: pokemonNumber }}
-              filterByType={filterByType}
-              searchTerm={searchTerm}
-              key={pokemonNumber}
-            />
-          ))}
-        </div>
+          <AiOutlineSearch className="w-6 h-6 dark:fill-white" />
+        </button>
+      )}
+      {!mobileMenu && (
+        <DesktopSearchAndFilter
+          showFilterMenu={showFilterMenu}
+          setShowFilterMenu={setShowFilterMenu}
+          filterByType={filterByType}
+          setFilterByType={setFilterByType}
+          showMobileSearch={showMobileSearch}
+          setShowMobileSearch={setShowMobileSearch}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
+          headerOnTop={headerOnTop}
+          setHeaderOnTop={setHeaderOnTop}
+          noFiltering={true}
+        />
+      )}
+      {mobileMenu && showMobileSearch && (
+        <MobileSearchAndFilter
+          showFilterMenu={showFilterMenu}
+          setShowFilterMenu={setShowFilterMenu}
+          filterByType={filterByType}
+          setFilterByType={setFilterByType}
+          showMobileSearch={showMobileSearch}
+          setShowMobileSearch={setShowMobileSearch}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
+          noFiltering={true}
+        />
+      )}
+      {notFound && <div className="mt-32">No Pokemon found</div>}
+      <div
+        className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
+          headerOnTop ? "mt-24" : null
+        }`}
+      >
+        {/* TODO search doesnt work on iOS mobile browsers ;( */}
+
+        {caughtPokemon
+          ?.filter((pokemonListItem) => pokemonListItem?.includes(searchTerm))
+          .map((pokemon) => {
+            return (
+              <PokedexSinglePokemonWrapper
+                key={pokemon}
+                pokemon={{ name: pokemon }}
+              />
+            );
+          })}
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -13,15 +13,18 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useBasePath } from "../../utils/useBasePath";
 
 import DarkModeSwitch from "../../utils/DarkModeSwitch";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const Header = () => {
   const [displayMobileMenu, setDisplayMobileMenu] = React.useState(false);
   const [mobileMenu] = useMobileMenu();
   const basePath = useBasePath();
+  const [darkMode] = useDarkMode();
 
+  console.log(document.body.classList.contains("dark"));
   return (
     <Fragment>
-      <ToastContainer theme={"dark"} className="pt-14 " />
+      <ToastContainer theme={darkMode ? "dark" : "light"} className="mt-14" />
       <header
         className={`w-full h-20 dark:bg-darkPrimary bg-white justify-between fixed flex items-center px-4 ${
           basePath === "/pokemon" && !mobileMenu ? "z-[30] " : "z-[6000]"

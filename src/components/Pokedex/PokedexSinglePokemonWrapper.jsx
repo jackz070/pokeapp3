@@ -4,7 +4,7 @@ import PokedexSinglePokemonSkeletonDark from "../Loaders/PokedexSinglePokemonSke
 
 import { useInView } from "react-intersection-observer";
 
-const PokedexSinglePokemonWrapper = ({ pokemon, filterByType, searchTerm }) => {
+const PokedexSinglePokemonWrapper = ({ pokemon }) => {
   const { ref, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,
@@ -13,13 +13,7 @@ const PokedexSinglePokemonWrapper = ({ pokemon, filterByType, searchTerm }) => {
   return (
     <div ref={ref}>
       {!inView && <PokedexSinglePokemonSkeletonDark />}
-      {inView && (
-        <PokedexSinglePokemon
-          pokemon={pokemon}
-          filterByType={filterByType}
-          searchTerm={searchTerm}
-        />
-      )}
+      {inView && <PokedexSinglePokemon pokemon={pokemon} />}
     </div>
   );
 };

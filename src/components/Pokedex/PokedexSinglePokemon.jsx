@@ -50,7 +50,6 @@ const PokedexSinglePokemon = ({ pokemon }) => {
         {!mobileMenu && (
           <div className="absolute top-[86px] right-8 z-10">
             <AddRemoveMyPokemonButton
-              pokemonNumber={thisPokemon?.id}
               pokemonName={thisPokemon.name}
             />
           </div>

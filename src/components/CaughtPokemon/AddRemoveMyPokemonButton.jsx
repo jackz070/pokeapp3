@@ -11,10 +11,7 @@ import { AiOutlinePlus, AiOutlineMinus, AiOutlineCheck } from "react-icons/ai";
 
 // TODO reference to login if not logged in instead of adding pokemon (available only to logged in users)
 
-const AddRemoveMyPokemonButton = ({
-  pokemonNumber,
-  pokemonName = "Pokemon",
-}) => {
+const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }) => {
   const { saveCaughtPokemon, removeCaughtPokemon, caughtPokemon } =
     useCaughtPokemon();
   const [isHovered, setIsHovered] = React.useState(false);
@@ -41,9 +38,9 @@ const AddRemoveMyPokemonButton = ({
   };
 
   React.useEffect(() => {
-    if (caughtPokemon.includes(pokemonNumber)) {
+    if (caughtPokemon.includes(pokemonName)) {
       setButtonRemove();
-    } else if (!caughtPokemon.includes(pokemonNumber)) {
+    } else if (!caughtPokemon.includes(pokemonName)) {
       setButtonAdd();
     }
   }, []);
@@ -84,18 +81,18 @@ const AddRemoveMyPokemonButton = ({
     </div>
   );
 
-  const handleClick = (pokemonNumber) => {
-    if (!caughtPokemon.includes(pokemonNumber)) {
+  const handleClick = (pokemonName) => {
+    if (!caughtPokemon.includes(pokemonName)) {
       setTimeout(() => {
         setButtonRemove();
       }, 1000);
-      saveCaughtPokemon(pokemonNumber);
+      saveCaughtPokemon(pokemonName);
       notify(<ToastMessageAddedToMyPokemon pokemonName={pokemonName} />);
-    } else if (caughtPokemon.includes(pokemonNumber)) {
+    } else if (caughtPokemon.includes(pokemonName)) {
       setTimeout(() => {
         setButtonAdd();
       }, 1000);
-      removeCaughtPokemon(pokemonNumber);
+      removeCaughtPokemon(pokemonName);
       notify(<ToastMessageRemovedFromMyPokemon pokemonName={pokemonName} />);
     }
   };
@@ -111,7 +108,7 @@ const AddRemoveMyPokemonButton = ({
           btnText.current.innerText = "Done!";
           setCurrentIcon("check");
           btnIcon.current.style.fontSize = "10px";
-          handleClick(pokemonNumber);
+          handleClick(pokemonName);
         }}
         className={`p-[6px] m-1 rounded-full text-[#191921] bg-white w-auto ${
           mobileMenu ? "max-w-[128px]" : "max-w-[20px]"

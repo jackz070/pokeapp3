@@ -133,8 +133,6 @@ const Pokedex = () => {
                 <PokedexSinglePokemonWrapper
                   key={pokemon.name}
                   pokemon={pokemon}
-                  filterByType={filterByType}
-                  searchTerm={searchTerm}
                 />
               );
             })}

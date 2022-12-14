@@ -6,15 +6,15 @@ CaughtPokemonContext.displayName = "CaughtPokemonContext";
 function CaughtPokemonProvider(props) {
   const [caughtPokemon, setCaughtPokemon] = React.useState([]);
 
-  const saveCaughtPokemon = async (pokemonNumber) => {
-    if (!caughtPokemon.includes(pokemonNumber)) {
-      await setCaughtPokemon((prev) => [...prev, pokemonNumber]);
+  const saveCaughtPokemon = async (pokemonName) => {
+    if (!caughtPokemon.includes(pokemonName)) {
+      await setCaughtPokemon((prev) => [...prev, pokemonName]);
     }
   };
 
-  const removeCaughtPokemon = (pokemonNumber) =>
+  const removeCaughtPokemon = (pokemonName) =>
     setCaughtPokemon((prev) =>
-      prev.filter((pokemon) => pokemon !== pokemonNumber)
+      prev.filter((pokemon) => pokemon !== pokemonName)
     );
 
   React.useEffect(() => {

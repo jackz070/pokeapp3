@@ -12,6 +12,7 @@ const DesktopSearchAndFilter = ({
   setSearchTerm,
   setPokemonListToBeDisplayed,
   headerOnTop,
+  noFiltering,
 }) => {
   const bar = React.useRef();
   const filterMenuButton = React.useRef();
@@ -51,20 +52,22 @@ const DesktopSearchAndFilter = ({
         onChange={(e) => setSearchTerm(e.target.value)}
         className="leading-loose px-8 py-1 dark:bg-white bg-gray-200 rounded-xl text-darkPrimary placeholder-gray-500 "
       />
-      <div className="relative">
-        <button
-          onClick={() => setShowFilterMenu((prev) => !prev)}
-          className={`p-1 ml-4  rounded-full z-[9000] absolute right-1 -top-4 ${
-            showFilterMenu ? "" : null
-          }`}
-          ref={filterMenuButton}
-        >
-          <AiOutlineFilter className={`fill-gray-500 w-6 h-6 `} />
-          {filterByType.length !== 0 && (
-            <div className="w-2 h-2 bg-red-500 absolute bottom-1 right-1 rounded-full"></div>
-          )}
-        </button>
-      </div>
+      {!noFiltering && (
+        <div className="relative">
+          <button
+            onClick={() => setShowFilterMenu((prev) => !prev)}
+            className={`p-1 ml-4  rounded-full z-[9000] absolute right-1 -top-4 ${
+              showFilterMenu ? "" : null
+            }`}
+            ref={filterMenuButton}
+          >
+            <AiOutlineFilter className={`fill-gray-500 w-6 h-6 `} />
+            {filterByType.length !== 0 && (
+              <div className="w-2 h-2 bg-red-500 absolute bottom-1 right-1 rounded-full"></div>
+            )}
+          </button>
+        </div>
+      )}
       {showFilterMenu && (
         <div
           className={`grid grid-cols-3 absolute h-60 w-80 top-32 right-72 ${

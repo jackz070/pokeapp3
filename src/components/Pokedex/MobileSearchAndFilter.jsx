@@ -14,6 +14,7 @@ const MobileSearchAndFilter = ({
   searchTerm,
   setSearchTerm,
   setPokemonListToBeDisplayed,
+  noFiltering,
 }) => {
   const filterMenuButton = React.useRef();
   const filterMenu = React.useRef();
@@ -55,20 +56,21 @@ const MobileSearchAndFilter = ({
         }}
         className="leading-loose px-8 py-1 dark:bg-white bg-gray-200 rounded-xl text-darkPrimary placeholder-gray-500"
       />
-      <div className="relative">
-        <button
-          onClick={() => setShowFilterMenu((prev) => !prev)}
-          className={`p-1 ml-4 rounded-full absolute -top-4 right-4 w-6 h-6 `}
-        >
-          <span ref={filterMenuButton}>
-            <AiOutlineFilter className="fill-gray-500 w-6 h-6 " />
-          </span>
-          {filterByType.length !== 0 && (
-            <div className="w-2 h-2 bg-red-500 absolute -right-1 bottom-0 rounded-full"></div>
-          )}
-        </button>
-        {/* TODO finish the mobile search bar rework AND desktop version too */}
-      </div>
+      {!noFiltering && (
+        <div className="relative">
+          <button
+            onClick={() => setShowFilterMenu((prev) => !prev)}
+            className={`p-1 ml-4 rounded-full absolute -top-4 right-4 w-6 h-6 `}
+          >
+            <span ref={filterMenuButton}>
+              <AiOutlineFilter className="fill-gray-500 w-6 h-6 " />
+            </span>
+            {filterByType.length !== 0 && (
+              <div className="w-2 h-2 bg-red-500 absolute -right-1 bottom-0 rounded-full"></div>
+            )}
+          </button>
+        </div>
+      )}
       {showFilterMenu && (
         <div
           className={`grid grid-cols-3 absolute h-60 px-4 pb-2 top-16  ${
