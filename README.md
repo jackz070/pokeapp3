@@ -35,7 +35,16 @@
 </ul><ul>
 <li>Acknowledging bug: Pokemon search functionality doesn't work on iOS and I have no idea on how to fix it.</li>
 </ul><h2>Project Status: In Progress</h2>
-<h2>Live Version:</h2> <p><a href="https://radiant-choux-0a80ea.netlify.app/">https://radiant-choux-0a80ea.netlify.app/</a></p><h2>Acknowledgements</h2>
+<h2>Live Version:</h2> <p><a href="https://radiant-choux-0a80ea.netlify.app/">https://radiant-choux-0a80ea.netlify.app/</a></p><h2>To Be Done</h2>
+<hr><ul>
+<li>I would like to re-implement basic data fetching, management, sorting and filtering - with those features available in two different areas of the app with slightly differently structured data there is a lot of repetition, props passed only for the components to work and general spaghetti</li>
+</ul><ul>
+<li>Further code clean-up - there is some repetition that doesn't make code any more readable thus worth fixing, some unused imports and props probably</li>
+</ul><ul>
+<li>Performance optimizations, considered lazy loading in some places and Suspend, but need to do metering first</li>
+</ul><ul>
+<li>Understanding and fixing a funny bug with seeded random number generator used for Pokemon of the Day on 12/12/2022 (with other days supplied as seed it functioned well, with this - not so much)</li>
+</ul><h2>Acknowledgements</h2>
 <hr><ul>
 <li>Thanks to the PokeAPI - my favourite (and challenging) free Public API!</li>
 </ul><ul>
