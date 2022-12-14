@@ -23,18 +23,20 @@
 <li>Vite</li>
 </ul><h2>Features</h2>
 <hr><ul>
-<li>Fetching and caching data with react-query</li>
+<li>Fetching and caching data from PokeAPI with react-query (which I love btw)</li>
 </ul><ul>
-<li>Cool gradient backgrounds for Pokemon (colored based on types!)</li>
+<li>Very cute dark mode switch I've built myself with awesome icons referenced below. Also cool gradient backgrounds for Pokemon (colored based on types!)</li>
 </ul><ul>
-<li>Ability to authenticate with Google using Auth0 and change profile picture to select custom images &amp; backgrounds. This functionality is a mock-up in a sense that there is no backend, no accounts are created, users are not kept track of at all.</li>
+<li>Ability to authenticate with Google using Auth0 and change profile picture to select custom images & backgrounds. This functionality is a mock-up in a sense that there is no backend, no accounts are created, users are not kept track of at all.</li>
 </ul><ul>
 <li>Ability to mark Pokemon as caught, check that list and type distribution visualised with a pie-chart. Normally this functionality would be available for users who log in only, but as I have no backend here to store data for users it's available publicly and persisted only via local storage.</li>
+</ul><ul>
+<li>Acknowledging bug: Pokemon search functionality doesn't work on iOS and I have no idea on how to fix it.</li>
 </ul><h2>Project Status</h2>
 <hr><p>In Progress</p><h2>Acknowledgement</h2>
 <hr><ul>
 <li>Thanks to the PokeAPI - my favourite (and challenging) free Public API!</li>
 </ul><ul>
-<li>Used the awesome &lt;a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons"&gt;Pokemon icons created by Roundicons Freebies - Flaticon&lt;/a&gt;</li>
+<li>Used the awesome <a href="https://www.flaticon.com/free-icons/pokemon" title="pokemon icons"> Pokemon icons created by Roundicons Freebies - Flaticon</a></li>
 </ul><h2>Contact</h2>
 <hr><p><span style="margin-right: 30px;"></span><a href="https://www.linkedin.com/in/jacek-smoter-232a3424a/"><img target="_blank" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" style="width: 10%;"></a><span style="margin-right: 30px;"></span><a href="https://github.com/jackz070"><img target="_blank" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" style="width: 10%;"></a></p>
