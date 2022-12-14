@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
+      as="style"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>PokeApp 3.0</title>
+    <script>
+      function setDarkMode() {
+        if (
+          localStorage.theme === "dark" ||
+          (
+            !("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)")
+          ).matches
+        ) {
+          document.body.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.body.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+      }
+    </script>
+    <script type="module" crossorigin src="/pokeapp3/assets/index.b2fd6578.js"></script>
+    <link rel="stylesheet" href="/pokeapp3/assets/index.f0fead43.css">
+  </head>
+  <body onLoad="setDarkMode()">
+    <div
+      id="root"
+      class="min-h-screen dark:bg-darkPrimary dark:text-white text-darkPrimary bg-white"
+    ></div>
+    
+  </body>
+</html>
