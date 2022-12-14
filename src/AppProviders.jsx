@@ -14,7 +14,7 @@ const AppProviders = ({ children }) => {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter history={history}>
+      <BrowserRouter history={history} basename="/pokeapp3">
         <CaughtPokemonProvider>
           <PokedexSettingsProvider>
             <MobileMenuContextProvider>
