@@ -33,7 +33,7 @@
 </ul><ul>
 <li>Acknowledging bug: Pokemon search functionality doesn't work on iOS and I have no idea on how to fix it.</li>
 </ul><h2>Project Status</h2>
-<hr><p>In Progress</p><h2>Acknowledgement</h2>
+<hr><p>In Progress</p><h2>Live Version: <p><a href="https://radiant-choux-0a80ea.netlify.app/">https://radiant-choux-0a80ea.netlify.app/</a></p><h2>Acknowledgement</h2>
 <hr><ul>
 <li>Thanks to the PokeAPI - my favourite (and challenging) free Public API!</li>
 </ul><ul>
