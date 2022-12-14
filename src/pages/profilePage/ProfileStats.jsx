@@ -13,7 +13,7 @@ const ProfileStats = ({ caughtPokemon }) => {
           <h2 className="uppercase text-xl font-bold">No Pokemon Caught</h2>
           <p className="text-sm text-center max-w-[12rem]">
             Save Pokemon as caught by using "Add to caught" in
-            <Link to="/" className="text-sm underline text-purple-200">
+            <Link to="/" className="text-sm underline text-purple-200 mx-1">
               Pokedex
             </Link>
             or individual Pokemon's page
