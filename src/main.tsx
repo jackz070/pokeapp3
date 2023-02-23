@@ -16,7 +16,7 @@ import LoggedInRoute from "./components/LoggedInRoute";
 import "./index.css";
 
 document.fonts.ready.then(() => {
-  ReactDOM.createRoot(document.getElementById("root")).render(
+  ReactDOM.createRoot(document.getElementById("root") as Element).render(
     <AppProviders>
       <Routes>
         <Route element={<App />}>
