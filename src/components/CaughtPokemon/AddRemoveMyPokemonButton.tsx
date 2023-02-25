@@ -11,30 +11,32 @@ import { AiOutlinePlus, AiOutlineMinus, AiOutlineCheck } from "react-icons/ai";
 
 // TODO reference to login if not logged in instead of adding pokemon (available only to logged in users)
 
-const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }) => {
-  const { saveCaughtPokemon, removeCaughtPokemon, caughtPokemon } =
-    useCaughtPokemon();
+const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }: { pokemonName: string }) => {
+  const { saveCaughtPokemon, removeCaughtPokemon, caughtPokemon } = useCaughtPokemon();
   const [isHovered, setIsHovered] = React.useState(false);
   const [currentIcon, setCurrentIcon] = React.useState("plus");
 
   const [mobileMenu] = useMobileMenu();
-  const addButton = React.useRef();
-  const btn = addButton.current;
+  const addButton = React.useRef<HTMLButtonElement>(null);
 
-  const btnText = React.useRef();
-  const btnIcon = React.useRef();
+  const btnText = React.useRef<HTMLElement>(null);
+  const btnIcon = React.useRef<HTMLElement>(null);
   const setButtonRemove = () => {
-    btnText.current.innerText = "Remove from caught";
-    setCurrentIcon("minus");
-    btnIcon.current.style.fontSize = "22px";
-    btnIcon.current.style.marginRight = "8px";
+    if (btnText.current && btnIcon.current) {
+      btnText.current.innerText = "Remove from caught";
+      setCurrentIcon("minus");
+      btnIcon.current.style.fontSize = "22px";
+      btnIcon.current.style.marginRight = "8px";
+    }
   };
 
   const setButtonAdd = () => {
-    btnText.current.innerText = "Add to caught";
-    setCurrentIcon("plus");
-    btnIcon.current.style.fontSize = "14px";
-    btnIcon.current.style.marginRight = "6px";
+    if (btnText.current && btnIcon.current) {
+      btnText.current.innerText = "Add to caught";
+      setCurrentIcon("plus");
+      btnIcon.current.style.fontSize = "14px";
+      btnIcon.current.style.marginRight = "6px";
+    }
   };
 
   React.useEffect(() => {
@@ -45,43 +47,31 @@ const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }) => {
     }
   }, []);
 
-  const ToastMessageAddedToMyPokemon = ({ pokemonName }) => (
+  const ToastMessageAddedToMyPokemon = ({ pokemonName }: { pokemonName: string }) => (
     <div>
-      <Link
-        to={`/pokemon/${pokemonName}`}
-        className="font-bold underline active:brightness-90"
-      >
+      <Link to={`/pokemon/${pokemonName}`} className="font-bold underline active:brightness-90">
         {capitalize(pokemonName)}
       </Link>
       &nbsp;added to&nbsp;
-      <Link
-        to="/my-pokemon"
-        className="font-bold underline active:brightness-90"
-      >
+      <Link to="/my-pokemon" className="font-bold underline active:brightness-90">
         My Pokemon
       </Link>
     </div>
   );
 
-  const ToastMessageRemovedFromMyPokemon = ({ pokemonName }) => (
+  const ToastMessageRemovedFromMyPokemon = ({ pokemonName }: { pokemonName: string }) => (
     <div>
-      <Link
-        to={`/pokemon/${pokemonName}`}
-        className="font-bold underline active:brightness-90"
-      >
+      <Link to={`/pokemon/${pokemonName}`} className="font-bold underline active:brightness-90">
         {capitalize(pokemonName)}
       </Link>
       &nbsp;removed from&nbsp;
-      <Link
-        to="/my-pokemon"
-        className="font-bold underline active:brightness-90"
-      >
+      <Link to="/my-pokemon" className="font-bold underline active:brightness-90">
         My Pokemon
       </Link>
     </div>
   );
 
-  const handleClick = (pokemonName) => {
+  const handleClick = (pokemonName: string) => {
     if (!caughtPokemon.includes(pokemonName)) {
       setTimeout(() => {
         setButtonRemove();
@@ -97,7 +87,8 @@ const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }) => {
     }
   };
 
-  const notify = (message) => toast(message);
+  const notify = (message: JSX.Element) => toast(message);
+  
   return (
     <Fragment>
       <button
@@ -105,19 +96,17 @@ const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => {
-          btnText.current.innerText = "Done!";
-          setCurrentIcon("check");
-          btnIcon.current.style.fontSize = "10px";
-          handleClick(pokemonName);
+          if (btnText.current && btnIcon.current) {
+            btnText.current.innerText = "Done!";
+            setCurrentIcon("check");
+            btnIcon.current.style.fontSize = "10px";
+            handleClick(pokemonName);
+          }
         }}
         className={`p-[6px] m-1 rounded-full text-[#191921] bg-white w-auto ${
           mobileMenu ? "max-w-[128px]" : "max-w-[20px]"
-        }  overflow-hidden h-5 inline-flex items-center  hover:bg-gray-200 hover:max-w-[124px] transition-all  active:scale-95 ease-out`}
-      >
-        <span
-          className="mr-[6px] flex items-center justify-center text-sm"
-          ref={btnIcon}
-        >
+        }  overflow-hidden h-5 inline-flex items-center  hover:bg-gray-200 hover:max-w-[124px] transition-all  active:scale-95 ease-out`}>
+        <span className="mr-[6px] flex items-center justify-center text-sm" ref={btnIcon}>
           {currentIcon === "plus" ? (
             <AiOutlinePlus className="w-2 h-2" />
           ) : currentIcon === "minus" ? (
@@ -126,10 +115,7 @@ const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }) => {
             <AiOutlineCheck className="w-2 h-2" />
           ) : null}
         </span>
-        <span
-          className="flex items-center whitespace-nowrap pr-2 text-[10px]"
-          ref={btnText}
-        >
+        <span className="flex items-center whitespace-nowrap pr-2 text-[10px]" ref={btnText}>
           Add to caught
         </span>
       </button>

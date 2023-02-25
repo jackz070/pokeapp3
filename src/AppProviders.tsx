@@ -21,9 +21,7 @@ const AppProviders = ({ children }) => {
             <MobileMenuContextProvider>
               <CustomUserProfileContextProvider>
                 <DarkModeContextProvider>
-                  <Auth0ProviderWithHistory>
-                    {children}
-                  </Auth0ProviderWithHistory>
+                  <Auth0ProviderWithHistory>{children}</Auth0ProviderWithHistory>
                 </DarkModeContextProvider>
               </CustomUserProfileContextProvider>
             </MobileMenuContextProvider>

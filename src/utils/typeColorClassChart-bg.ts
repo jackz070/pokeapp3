@@ -1,4 +1,6 @@
-const typeColorClassChartBg = {
+import { PokemonTypes } from "./pokemonTypes";
+
+const typeColorClassChartBg: PokemonTypes = {
   normal: "from-[#A8A77A]",
   fire: "from-[#EE8130]",
   water: "from-[#6390F0]",
@@ -16,7 +18,7 @@ const typeColorClassChartBg = {
   dragon: "from-[#6F35FC]",
   dark: "from-[#705746]",
   steel: "from-[#B7B7CE]",
-  fairy: "from-[#D685AD]",
+  fairy: "from-[#D685AD]"
 };
 
 export default typeColorClassChartBg;

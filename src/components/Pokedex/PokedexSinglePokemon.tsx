@@ -10,22 +10,31 @@ import { capitalize } from "../../utils/text-formatting";
 import AddRemoveMyPokemonButton from "../CaughtPokemon/AddRemoveMyPokemonButton";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 
-const PokedexSinglePokemon = ({ pokemon }) => {
+import { Pokemon } from "../../types";
+
+const PokedexSinglePokemon = ({ pokemon }: { pokemon: { name: number; url: string } }) => {
   const [hovered, setHovered] = React.useState(false);
 
   const {
     isLoading,
     isError,
     isSuccess,
-    data: thisPokemon,
+    data: thisPokemon
+  }: {
+    isLoading: boolean;
+    isError: boolean;
+    isSuccess: boolean;
+    data: Pokemon | undefined;
   } = usePokemon(pokemon.name);
 
   const [mobileMenu] = useMobileMenu();
 
-  const types = [];
-  getTypes(thisPokemon);
+  const types: string[] = [];
+  if (thisPokemon) {
+    getTypes(thisPokemon);
+  }
 
-  function getTypes(thisPokemon) {
+  function getTypes(thisPokemon: Pokemon) {
     thisPokemon?.types?.map((type) => types.push(type.type.name));
   }
 
@@ -36,7 +45,7 @@ const PokedexSinglePokemon = ({ pokemon }) => {
     return <div>Error</div>;
   }
 
-  if (isSuccess && thisPokemon.is_default === false) {
+  if (isSuccess && thisPokemon?.is_default === false) {
     return null;
   }
 
@@ -45,33 +54,30 @@ const PokedexSinglePokemon = ({ pokemon }) => {
       <div
         className="relative p-4 hover:scale-105 transition-all w-[175px]"
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {!mobileMenu && (
+        onMouseLeave={() => setHovered(false)}>
+        {!mobileMenu && thisPokemon && (
           <div className="absolute top-[86px] right-8 z-10">
-            <AddRemoveMyPokemonButton
-              pokemonName={thisPokemon.name}
-            />
+            <AddRemoveMyPokemonButton pokemonName={thisPokemon.name} />
           </div>
         )}
         <div>
           <div
             className={`bg-gradient-radial ${
-              typeColorClassChartBg[thisPokemon?.types[0]?.type.name]
+              typeColorClassChartBg[
+                thisPokemon?.types?.[0]?.type.name as keyof typeof typeColorClassChartBg
+              ]
             } via-[rgba(0,0,0,0)] absolute -top-3 -left-4  h-[200px] w-[200px] ${
-              hovered
-                ? "dark:opacity-20 opacity-60"
-                : "dark:opacity-10 opacity-50"
+              hovered ? "dark:opacity-20 opacity-60" : "dark:opacity-10 opacity-50"
             }`}
           />
           <div
             className={`bg-gradient-radial  ${
-              typeColorClassChartBg[thisPokemon?.types[1]?.type.name]
+              typeColorClassChartBg[
+                thisPokemon?.types?.[1]?.type.name as keyof typeof typeColorClassChartBg
+              ]
             }
                via-[rgba(0,0,0,0)] absolute -top-2 right-0 h-[190px] w-[190px] ${
-                 hovered
-                   ? "dark:opacity-30 opacity-50"
-                   : "dark:opacity-10 opacity-40"
+                 hovered ? "dark:opacity-30 opacity-50" : "dark:opacity-10 opacity-40"
                }`}
           />
         </div>
@@ -88,22 +94,15 @@ const PokedexSinglePokemon = ({ pokemon }) => {
                 />
               </>
             ) : (
-              <div className="w-20 h-20 flex items-center justify-center text-xs">
-                No Image
-              </div>
+              <div className="w-20 h-20 flex items-center justify-center text-xs">No Image</div>
             )}
             <div className="text-gray-400  text-xs leading-none">{`#${thisPokemon?.id} `}</div>
             <div className="leading-snug font-bold pb-1 text-xl dark:text-white">
-              {capitalize(thisPokemon?.name.split("-")[0])}
+              {thisPokemon && capitalize(thisPokemon?.name.split("-")[0])}
             </div>
             <div className="flex justify-center items-center w-fit">
               {thisPokemon?.types?.map((type) => {
-                return (
-                  <TypeChip
-                    type={type.type.name}
-                    key={thisPokemon?.name + type.type.name}
-                  />
-                );
+                return <TypeChip type={type.type.name} key={thisPokemon?.name + type.type.name} />;
               })}
             </div>
           </div>

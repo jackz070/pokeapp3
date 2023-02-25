@@ -19,8 +19,9 @@ const Pokedex = () => {
   const [filterByType, setFilterByType] = React.useState([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
-  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] =
-    React.useState([]);
+  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] = React.useState<
+    { name: string; url: string }[]
+  >([]);
   const [showMobileSearch, setShowMobileSearch] = React.useState(false);
   const [notFound, setNotFound] = React.useState(false);
 
@@ -51,9 +52,8 @@ const Pokedex = () => {
   React.useEffect(() => {
     setNotFound(false);
     if (
-      pokemonList?.filter((pokemonListItem) =>
-        pokemonListItem?.name.includes(searchTerm)
-      ).length === 0
+      pokemonList?.filter((pokemonListItem) => pokemonListItem?.name.includes(searchTerm))
+        .length === 0
     ) {
       setNotFound(true);
     }
@@ -103,38 +103,23 @@ const Pokedex = () => {
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
           headerOnTop ? "mt-24" : null
-        }`}
-      >
+        }`}>
         {isError && "Error"}
         {isSuccess &&
           filterByType.length > 0 &&
           pokemonListToBeDisplayed
-            .filter((pokemonListItem) =>
-              pokemonListItem?.name.includes(searchTerm)
-            )
+            .filter((pokemonListItem) => pokemonListItem?.name.includes(searchTerm))
             .map((pokemon) => {
-              return (
-                <PokedexSinglePokemonWrapper
-                  key={pokemon.name}
-                  pokemon={pokemon}
-                />
-              );
+              return <PokedexSinglePokemonWrapper key={pokemon.name} pokemon={pokemon} />;
             })}
         {/* TODO search doesnt work on iOS mobile browsers ;( */}
         {isSuccess &&
           filterByType.length === 0 &&
           pokemonList
-            .filter((pokemonListItem) =>
-              pokemonListItem?.name.includes(searchTerm)
-            )
+            .filter((pokemonListItem) => pokemonListItem?.name.includes(searchTerm))
 
             .map((pokemon) => {
-              return (
-                <PokedexSinglePokemonWrapper
-                  key={pokemon.name}
-                  pokemon={pokemon}
-                />
-              );
+              return <PokedexSinglePokemonWrapper key={pokemon.name} pokemon={pokemon} />;
             })}
       </div>
     </div>

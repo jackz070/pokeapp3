@@ -6,11 +6,8 @@ import MobileSearchAndFilter from "../Pokedex/MobileSearchAndFilter";
 import DesktopSearchAndFilter from "../Pokedex/DesktopSearchAndFilter";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 import { AiOutlineSearch } from "react-icons/ai";
-import FullScreenLoading from "../Loaders/FullScreenLoading";
 import PokedexSinglePokemonWrapper from "../Pokedex/PokedexSinglePokemonWrapper";
 
-// TODO reference to profile for stats
-// TODO wire up searching and filtering so that it works here (probably is straight copy from pokedex from before the refactor) - copy the setPokemonListToBeDisplayed stuff and connect that list with caught pokemon here TODO X2 because also needs to work with mobile view
 const MyPokemon = () => {
   const { caughtPokemon } = useCaughtPokemon();
 
@@ -19,8 +16,7 @@ const MyPokemon = () => {
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
   const [showMobileSearch, setShowMobileSearch] = React.useState(false);
-  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] =
-    React.useState([]);
+  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] = React.useState([]);
   const [notFound, setNotFound] = React.useState(false);
 
   const [mobileMenu] = useMobileMenu();
@@ -47,13 +43,11 @@ const MyPokemon = () => {
   React.useEffect(() => {
     setNotFound(false);
     if (
-      caughtPokemon?.filter((pokemonListItem) =>
-        pokemonListItem?.includes(searchTerm)
-      ).length === 0
+      caughtPokemon?.filter((pokemonListItem) => pokemonListItem?.includes(searchTerm)).length === 0
     ) {
       setNotFound(true);
     }
-  }, [searchTerm]);
+  }, [searchTerm, caughtPokemon]);
 
   return (
     <div className="flex flex-col items-center pt-20 dark:bg-darkPrimary bg-white max-w-[1280px] mx-auto relative">
@@ -112,19 +106,13 @@ const MyPokemon = () => {
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
           headerOnTop ? "mt-24" : null
-        }`}
-      >
+        }`}>
         {/* TODO search doesnt work on iOS mobile browsers ;( */}
 
         {caughtPokemon
           ?.filter((pokemonListItem) => pokemonListItem?.includes(searchTerm))
           .map((pokemon) => {
-            return (
-              <PokedexSinglePokemonWrapper
-                key={pokemon}
-                pokemon={{ name: pokemon }}
-              />
-            );
+            return <PokedexSinglePokemonWrapper key={pokemon} pokemon={{ name: pokemon }} />;
           })}
       </div>
     </div>

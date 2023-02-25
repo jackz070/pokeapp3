@@ -1,4 +1,6 @@
-const typeColorClassChartBGlightMode = {
+import { PokemonTypes } from "./pokemonTypes";
+
+const typeColorClassChartBGlightMode: PokemonTypes = {
   normal: "bg-[#A8A77A]",
   fire: "bg-[#EE8130]",
   water: "bg-[#6390F0]",
@@ -16,7 +18,7 @@ const typeColorClassChartBGlightMode = {
   dragon: "bg-[#6F35FC]",
   dark: "bg-[#705746]",
   steel: "bg-[#B7B7CE]",
-  fairy: "bg-[#D685AD]",
+  fairy: "bg-[#D685AD]"
 };
 
 export default typeColorClassChartBGlightMode;

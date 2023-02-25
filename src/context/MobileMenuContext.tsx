@@ -1,16 +1,21 @@
 import React from "react";
 
-const MobileMenuContext = React.createContext();
+type MobileMenuContextType = [
+  mobileMenu: boolean,
+  setMobileMenu: React.Dispatch<React.SetStateAction<boolean>>
+];
+
+const MobileMenuContext = React.createContext<MobileMenuContextType | undefined>(undefined);
 MobileMenuContext.displayName = "MobileMenuContext";
 
-const MobileMenuContextProvider = (props) => {
+const MobileMenuContextProvider = (props: { [key: string]: unknown }) => {
   const [mobileMenu, setMobileMenu] = React.useState(window.innerWidth <= 720);
 
   const handleWindowSizeChange = () => {
     setMobileMenu(window.innerWidth <= 720);
   };
 
-  React.useEffect((props) => {
+  React.useEffect(() => {
     window.addEventListener("resize", handleWindowSizeChange);
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange);
@@ -19,7 +24,7 @@ const MobileMenuContextProvider = (props) => {
 
   const value = [mobileMenu, setMobileMenu];
 
-  return <MobileMenuContext.Provider value={value} {...props} />;
+  return <MobileMenuContext.Provider value={value as MobileMenuContextType} {...props} />;
 };
 
 function useMobileMenu() {

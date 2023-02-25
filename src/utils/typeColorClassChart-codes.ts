@@ -1,4 +1,6 @@
-const typeColorClassChartCodes = {
+import { PokemonTypesCapitalized } from "./pokemonTypes";
+
+const typeColorClassChartCodes: PokemonTypesCapitalized = {
   Normal: "#A8A77A",
   Fire: "#EE8130",
   Water: "#6390F0",
@@ -16,7 +18,7 @@ const typeColorClassChartCodes = {
   Dragon: "#6F35FC",
   Dark: "#705746",
   Steel: "#B7B7CE",
-  Fairy: "#D685AD",
+  Fairy: "#D685AD"
 };
 
 export default typeColorClassChartCodes;

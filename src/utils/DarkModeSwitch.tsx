@@ -4,7 +4,7 @@ import iconLight from "../assets/icon-light.png";
 import iconDark from "../assets/icon-dark.png";
 import { useDarkMode } from "../context/DarkModeContext";
 
-const DarkModeSwitch = ({ small }) => {
+const DarkModeSwitch = ({ small }: { small: boolean }) => {
   const [darkMode, setDarkMode] = useDarkMode();
 
   const handleChange = () => {
@@ -49,8 +49,7 @@ const DarkModeSwitch = ({ small }) => {
         <span
           className={`${
             small ? "w-10 h-8" : "w-16 h-12"
-          } flex items-center flex-shrink-0  p-[2px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-blue-600 `}
-        ></span>
+          } flex items-center flex-shrink-0  p-[2px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-blue-600 `}></span>
       </label>
     </div>
   );
