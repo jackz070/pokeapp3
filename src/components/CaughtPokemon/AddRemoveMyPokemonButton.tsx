@@ -11,7 +11,7 @@ import { AiOutlinePlus, AiOutlineMinus, AiOutlineCheck } from "react-icons/ai";
 
 // TODO reference to login if not logged in instead of adding pokemon (available only to logged in users)
 
-const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }: { pokemonName: string }) => {
+const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }: { pokemonName?: string }) => {
   const { saveCaughtPokemon, removeCaughtPokemon, caughtPokemon } = useCaughtPokemon();
   const [isHovered, setIsHovered] = React.useState(false);
   const [currentIcon, setCurrentIcon] = React.useState("plus");
@@ -88,7 +88,7 @@ const AddRemoveMyPokemonButton = ({ pokemonName = "Pokemon" }: { pokemonName: st
   };
 
   const notify = (message: JSX.Element) => toast(message);
-  
+
   return (
     <Fragment>
       <button

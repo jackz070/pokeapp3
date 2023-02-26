@@ -3,6 +3,25 @@ import { AiOutlineFilter } from "react-icons/ai";
 
 import FilterByType from "./FilterByType";
 
+interface DesktopSearchAndFilterTypes {
+  showFilterMenu: boolean;
+  setShowFilterMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  filterByType: string[];
+  setFilterByType: React.Dispatch<React.SetStateAction<string[]>>;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  setPokemonListToBeDisplayed: React.Dispatch<
+    React.SetStateAction<
+      {
+        name: string;
+        url: string;
+      }[]
+    >
+  >;
+  headerOnTop: boolean;
+  noFiltering: boolean;
+}
+
 const DesktopSearchAndFilter = ({
   showFilterMenu,
   setShowFilterMenu,
@@ -12,18 +31,18 @@ const DesktopSearchAndFilter = ({
   setSearchTerm,
   setPokemonListToBeDisplayed,
   headerOnTop,
-  noFiltering,
-}) => {
-  const bar = React.useRef();
-  const filterMenuButton = React.useRef();
+  noFiltering
+}: DesktopSearchAndFilterTypes) => {
+  const bar = React.useRef<HTMLInputElement>(null);
+  const filterMenuButton = React.useRef<HTMLButtonElement>(null);
 
-  const filterMenu = React.useRef();
+  const filterMenu = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent | TouchEvent) => {
       if (
-        !filterMenuButton?.current?.contains(e.target) &&
-        !filterMenu?.current?.contains(e.target)
+        !filterMenuButton?.current?.contains(e.target as Node) &&
+        !filterMenu?.current?.contains(e.target as Node)
       ) {
         setShowFilterMenu(false);
       }
@@ -42,8 +61,7 @@ const DesktopSearchAndFilter = ({
     <div
       className={`transition-all flex items-center z-[7000] mb-12 ${
         headerOnTop ? "fixed top-[25px] " : null
-      }`}
-    >
+      }`}>
       <input
         ref={bar}
         type="text"
@@ -59,8 +77,7 @@ const DesktopSearchAndFilter = ({
             className={`p-1 ml-4  rounded-full z-[9000] absolute right-1 -top-4 ${
               showFilterMenu ? "" : null
             }`}
-            ref={filterMenuButton}
-          >
+            ref={filterMenuButton}>
             <AiOutlineFilter className={`fill-gray-500 w-6 h-6 `} />
             {filterByType.length !== 0 && (
               <div className="w-2 h-2 bg-red-500 absolute bottom-1 right-1 rounded-full"></div>
@@ -73,8 +90,7 @@ const DesktopSearchAndFilter = ({
           className={`grid grid-cols-3 absolute h-60 w-80 top-32 right-72 ${
             headerOnTop ? "top-[3rem] left-40" : "top-32 right-72"
           } z-30 rounded-md uppercase dark:bg-white bg-trueWhite`}
-          ref={filterMenu}
-        >
+          ref={filterMenu}>
           <FilterByType
             setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
             filterByType={filterByType}

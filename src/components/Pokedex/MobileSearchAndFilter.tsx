@@ -1,8 +1,27 @@
 import React from "react";
 import { AiOutlineFilter } from "react-icons/ai";
 
-import { QueryClient } from "@tanstack/react-query";
 import FilterByType from "./FilterByType";
+
+interface MobileSearchAndFilterTypes {
+  showFilterMenu: boolean;
+  setShowFilterMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  filterByType: string[];
+  setFilterByType: React.Dispatch<React.SetStateAction<string[]>>;
+  showMobileSearch: boolean;
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  setPokemonListToBeDisplayed: React.Dispatch<
+    React.SetStateAction<
+      {
+        name: string;
+        url: string;
+      }[]
+    >
+  >;
+
+  noFiltering: boolean;
+}
 
 const MobileSearchAndFilter = ({
   showFilterMenu,
@@ -10,20 +29,19 @@ const MobileSearchAndFilter = ({
   filterByType,
   setFilterByType,
   showMobileSearch,
-
   searchTerm,
   setSearchTerm,
   setPokemonListToBeDisplayed,
-  noFiltering,
-}) => {
-  const filterMenuButton = React.useRef();
-  const filterMenu = React.useRef();
+  noFiltering
+}: MobileSearchAndFilterTypes) => {
+  const filterMenuButton = React.useRef<HTMLButtonElement>(null);
+  const filterMenu = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent | TouchEvent) => {
       if (
-        !filterMenuButton.current.contains(e.target) &&
-        !filterMenu?.current?.contains(e.target)
+        !filterMenuButton?.current?.contains(e.target as Node) &&
+        !filterMenu?.current?.contains(e.target as Node)
       ) {
         setShowFilterMenu(false);
       }
@@ -39,14 +57,13 @@ const MobileSearchAndFilter = ({
   }, [showFilterMenu]);
 
   // Mobile search closes on click outside
-  const mobileSearch = React.useRef();
+  const mobileSearch = React.useRef<HTMLDivElement>(null);
   // const mobileSearchButton = React.useRef();
 
   return (
     <div
       className={`transition-all flex items-center justify-center z-[2000] mb-6 dark:bg-darkPrimary bg-white w px-1 py-4 w-full rounded-md fixed`}
-      ref={mobileSearch}
-    >
+      ref={mobileSearch}>
       <input
         type="text"
         placeholder="Search for Pokemon"
@@ -60,8 +77,7 @@ const MobileSearchAndFilter = ({
         <div className="relative">
           <button
             onClick={() => setShowFilterMenu((prev) => !prev)}
-            className={`p-1 ml-4 rounded-full absolute -top-4 right-4 w-6 h-6 `}
-          >
+            className={`p-1 ml-4 rounded-full absolute -top-4 right-4 w-6 h-6 `}>
             <span ref={filterMenuButton}>
               <AiOutlineFilter className="fill-gray-500 w-6 h-6 " />
             </span>
@@ -76,8 +92,7 @@ const MobileSearchAndFilter = ({
           className={`grid grid-cols-3 absolute h-60 px-4 pb-2 top-16  ${
             showMobileSearch && ""
           } z-30 rounded-md uppercase bg-white  w-screen`}
-          ref={filterMenu}
-        >
+          ref={filterMenu}>
           <FilterByType
             setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
             filterByType={filterByType}

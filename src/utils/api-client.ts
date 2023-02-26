@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Api from "./api";
 
-const usePokemon = (pokemonNumber: number) => {
+const usePokemon = (pokemonNumber: string) => {
   const result = useQuery(["pokemon", pokemonNumber], () => Api.pokemon(pokemonNumber));
   return { ...result };
 };
@@ -9,11 +9,11 @@ const usePokemon = (pokemonNumber: number) => {
 const usePokemonList = (limit: number) => {
   const result = useQuery(["pokemonList"], () => Api.pokemonList(limit));
 
-  const pokemonList: { name: string; url: string } = result?.data?.results;
+  const pokemonList: { name: string; url: string }[] = result?.data?.results;
   return { ...result, pokemonList };
 };
 
-const usePokemonSpecies = (pokemonNumber: number) => {
+const usePokemonSpecies = (pokemonNumber: string) => {
   const result = useQuery(["pokemonSpecies", pokemonNumber], () =>
     Api.pokemonSpecies(pokemonNumber)
   );

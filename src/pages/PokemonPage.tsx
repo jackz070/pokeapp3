@@ -21,7 +21,9 @@ import FullScreenLoading from "../components/Loaders/FullScreenLoading";
 import { useMobileMenu } from "../context/MobileMenuContext";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 
-const PokemonPage = ({ id }) => {
+import { Pokemon } from "../types";
+
+const PokemonPage = ({ id }: { id: string }) => {
   let { pokemonNumber } = useParams();
   if (!pokemonNumber) {
     pokemonNumber = id;
@@ -29,15 +31,23 @@ const PokemonPage = ({ id }) => {
   const [mobileMenu] = useMobileMenu();
   const [limit] = usePokedexSettings();
 
-  const { isError, isSuccess, data: thisPokemon } = usePokemon(pokemonNumber);
+  const {
+    isError,
+    isSuccess,
+    data: thisPokemon
+  }: {
+    isLoading: boolean;
+    isError: boolean;
+    isSuccess: boolean;
+    data: Pokemon | undefined;
+  } = usePokemon(pokemonNumber);
 
-  const { isLoading, data: thisPokemonDetails } =
-    usePokemonSpecies(pokemonNumber);
+  const { isLoading, data: thisPokemonDetails } = usePokemonSpecies(pokemonNumber);
 
   const prevPokemonNumber = parseInt(pokemonNumber) - 1;
   const nextPokemonNumber = parseInt(pokemonNumber) + 1;
 
-  const imageSelect = (thisPokemon) => {
+  const imageSelect = (thisPokemon: Pokemon) => {
     const imgSrc =
       thisPokemon?.sprites.other.dream_world.front_default ||
       thisPokemon?.sprites.other.home.front_default ||
@@ -54,9 +64,7 @@ const PokemonPage = ({ id }) => {
             className="relative px-12 z-[34] w-80 h-64"
           />
         ) : (
-          <div className="w-80 h-64 text-sm flex items-center justify-center">
-            No Image
-          </div>
+          <div className="w-80 h-64 text-sm flex items-center justify-center">No Image</div>
         )}
       </div>
     );
@@ -79,7 +87,9 @@ const PokemonPage = ({ id }) => {
             <div className=" ">
               <div
                 className={`bg-gradient-radial ${
-                  typeColorClassChartBg[thisPokemon?.types[0]?.type.name]
+                  typeColorClassChartBg[
+                    thisPokemon?.types?.[0]?.type.name as keyof typeof typeColorClassChartBg
+                  ]
                 } via-[rgba(0,0,0,0)] absolute -top-24 sm:-top-64 right-0 sm:-right-56 h-[375px] sm:h-[700px] w-[375px] sm:w-[700px]   z-[31] dark:opacity-30 opacity-50`}
               />
               <div
@@ -88,7 +98,9 @@ const PokemonPage = ({ id }) => {
               />
               <div
                 className={`bg-gradient-radial  ${
-                  typeColorClassChartBg[thisPokemon?.types[1]?.type.name]
+                  typeColorClassChartBg[
+                    thisPokemon?.types?.[1]?.type.name as keyof typeof typeColorClassChartBg
+                  ]
                 }
                  via-[rgba(0,0,0,0)] absolute -top-6 sm:-top-20 right-0 sm:-right-24 h-[341px] sm:h-[600px] w-[341px] sm:w-[600px] z-[31] dark:opacity-30 opacity-60 `}
               />
@@ -97,14 +109,13 @@ const PokemonPage = ({ id }) => {
                  via-[rgba(0,0,0,0)] absolute -top-12 sm:-top-40 -right-6 sm:-right-72 h-[271px] sm:h-[500px] w-[271px] sm:w-[500px] z-[31] opacity-10 `}
               />
               <div>
-                {imageSelect(thisPokemon)}
+                {thisPokemon ? imageSelect(thisPokemon) : null}
 
                 <div className="flex items-center justify-center gap-10">
                   {prevPokemonNumber > 0 ? (
                     <Link
                       to={`/pokemon/${prevPokemonNumber}`}
-                      className="text-xs relative z-[33] text-gray-400"
-                    >
+                      className="text-xs relative z-[33] text-gray-400">
                       <AiOutlineDoubleLeft />
                     </Link>
                   ) : null}
@@ -112,8 +123,7 @@ const PokemonPage = ({ id }) => {
                   {nextPokemonNumber <= limit ? (
                     <Link
                       to={`/pokemon/${nextPokemonNumber}`}
-                      className="text-xs relative z-[33] text-gray-400"
-                    >
+                      className="text-xs relative z-[33] text-gray-400">
                       <AiOutlineDoubleRight />
                     </Link>
                   ) : null}
@@ -122,26 +132,18 @@ const PokemonPage = ({ id }) => {
             </div>
             <div className="flex flex-col justify-center items-center relative">
               <h2 className=" text-4xl font-bold pb-2 relative z-[33]">
-                {capitalize(thisPokemon?.name)}
+                {thisPokemon ? capitalize(thisPokemon?.name) : null}
               </h2>
               <div className="flex items-center z-[33]">
                 {thisPokemon?.types?.map((type) => {
-                  return (
-                    <TypeChip
-                      type={type.type.name}
-                      key={thisPokemon.name + type.type.name}
-                    />
-                  );
+                  return <TypeChip type={type.type.name} key={thisPokemon.name + type.type.name} />;
                 })}
               </div>
               <div
                 className={` mt-4 absolute ${
                   mobileMenu ? "top-14" : "left-6 top-14"
-                } z-[33] flex `}
-              >
-                <AddRemoveMyPokemonButton
-                  pokemonNumber={parseInt(pokemonNumber)}
-                />
+                } z-[33] flex `}>
+                <AddRemoveMyPokemonButton pokemonName={thisPokemon?.name} />
               </div>
             </div>
           </div>
@@ -162,23 +164,18 @@ const PokemonPage = ({ id }) => {
                   isLoading={isLoading}
                   isSuccess={isSuccess}
                 />
-              ),
+              )
             },
             {
               label: "Stats",
-              content: (
-                <Stats thisPokemon={thisPokemon} className="relative z-[55]" />
-              ),
+              content: <Stats thisPokemon={thisPokemon} className="relative z-[55]" />
             },
             {
               label: "Evolutions",
               content: (
-                <Evolutions
-                  thisPokemonDetails={thisPokemonDetails}
-                  className="relative z-[55]"
-                />
-              ),
-            },
+                <Evolutions thisPokemonDetails={thisPokemonDetails} className="relative z-[55]" />
+              )
+            }
           ]}
         />
       </div>

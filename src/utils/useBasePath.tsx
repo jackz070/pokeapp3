@@ -5,7 +5,7 @@ export const useBasePath = () => {
   const params = useParams();
 
   return Object.values(params).reduce(
-    (path, param) => path.replace("/" + param, ""),
+    (path, param) => path?.replace("/" + param, ""),
     location.pathname
   );
 };

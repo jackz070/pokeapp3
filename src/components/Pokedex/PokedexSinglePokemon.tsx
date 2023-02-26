@@ -12,7 +12,7 @@ import { useMobileMenu } from "../../context/MobileMenuContext";
 
 import { Pokemon } from "../../types";
 
-const PokedexSinglePokemon = ({ pokemon }: { pokemon: { name: number; url: string } }) => {
+const PokedexSinglePokemon = ({ pokemon }: { pokemon: { name: string; url: string } }) => {
   const [hovered, setHovered] = React.useState(false);
 
   const {

@@ -2,10 +2,7 @@ import React from "react";
 
 type CaughtPokemonContextType = {
   caughtPokemon: string[];
-  setCaughtPokemon: React.Dispatch<React.SetStateAction<string[]>> | null;
-};
-
-type CaughtPokemonContextValueType = CaughtPokemonContextType & {
+  setCaughtPokemon: React.Dispatch<React.SetStateAction<string[]>>;
   saveCaughtPokemon: (pokemonName: string) => void;
   removeCaughtPokemon: (pokemonName: string) => void;
 };
@@ -16,9 +13,9 @@ CaughtPokemonContext.displayName = "CaughtPokemonContext";
 function CaughtPokemonProvider(props: { [key: string]: unknown }) {
   const [caughtPokemon, setCaughtPokemon] = React.useState<string[]>([]);
 
-  const saveCaughtPokemon = async (pokemonName: string) => {
+  const saveCaughtPokemon = (pokemonName: string) => {
     if (!caughtPokemon.includes(pokemonName)) {
-      await setCaughtPokemon((prev) => [...prev, pokemonName]);
+      setCaughtPokemon((prev) => [...prev, pokemonName]);
     }
   };
 
@@ -26,14 +23,16 @@ function CaughtPokemonProvider(props: { [key: string]: unknown }) {
     setCaughtPokemon((prev) => prev.filter((pokemon) => pokemon !== pokemonName));
 
   React.useEffect(() => {
-    setCaughtPokemon(JSON.parse(localStorage.getItem("caughtPokemon") || ""));
+    localStorage.getItem("caughtPokemon")
+      ? setCaughtPokemon(JSON.parse(localStorage.getItem("caughtPokemon") || ""))
+      : localStorage.setItem("caughtPokemon", JSON.stringify(caughtPokemon));
   }, []);
 
   React.useEffect(() => {
     localStorage.setItem("caughtPokemon", JSON.stringify(caughtPokemon));
   }, [caughtPokemon]);
 
-  const value: CaughtPokemonContextValueType = {
+  const value: CaughtPokemonContextType = {
     caughtPokemon,
     saveCaughtPokemon,
     removeCaughtPokemon,

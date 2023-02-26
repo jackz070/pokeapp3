@@ -1,18 +1,32 @@
 import React, { Fragment } from "react";
 import typeColorClassChart from "../../utils/typeColorClassChart";
 import { QueryClient } from "@tanstack/react-query";
+import { type IType } from "../../types/pokemonType";
+
+interface FilterByTypeTypes {
+  setPokemonListToBeDisplayed: React.Dispatch<
+    React.SetStateAction<
+      {
+        name: string;
+        url: string;
+      }[]
+    >
+  >;
+  filterByType: string[];
+  setFilterByType: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
 const FilterByType = ({
   setPokemonListToBeDisplayed,
   filterByType,
-  setFilterByType,
-}) => {
+  setFilterByType
+}: FilterByTypeTypes) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: Infinity,
-      },
-    },
+        staleTime: Infinity
+      }
+    }
   });
 
   const filterByTypeOptions = [
@@ -33,29 +47,28 @@ const FilterByType = ({
     "steel",
     "dragon",
     "dark",
-    "fairy",
+    "fairy"
   ];
 
-  const handleFilterClick = async (typeName) => {
+  const handleFilterClick = async (typeName: string) => {
     if (filterByType.includes(typeName)) {
       setFilterByType((prev) => prev.filter((type) => type !== typeName));
-      removeFilteredByType(typeName);
+      removeFilteredByType();
     } else if (!filterByType.includes(typeName)) {
       setFilterByType((prev) => [...prev, typeName]);
       addFilteredByType(typeName);
     }
   };
 
-  const addFilteredByType = async (type) => {
+  const addFilteredByType = async (type: string) => {
     try {
-      const data = await queryClient.fetchQuery({
+      const data: IType = await queryClient.fetchQuery({
         queryKey: ["type", type],
-        queryFn: () =>
-          fetch(`https://pokeapi.co/api/v2/type/${type}`).then((res) =>
-            res.json()
-          ),
+        queryFn: () => fetch(`https://pokeapi.co/api/v2/type/${type}`).then((res) => res.json())
       });
-      const tempPokemonList = [];
+
+      const tempPokemonList: { name: string; url: string }[] = [];
+
       data.pokemon.map((pokemon) => tempPokemonList.push(pokemon.pokemon));
       setPokemonListToBeDisplayed((prev) => [...prev, ...tempPokemonList]);
     } catch (error) {
@@ -64,7 +77,7 @@ const FilterByType = ({
   };
 
   //only one case when one filter option at a time is allowed
-  const removeFilteredByType = (typeName) => {
+  const removeFilteredByType = () => {
     if (filterByType.length === 1) {
       setPokemonListToBeDisplayed([]);
     }
@@ -80,13 +93,13 @@ const FilterByType = ({
             filterByType.includes(option)
               ? `${
                   typeColorClassChart[
-                    option[0].toUpperCase() + option.substring(1)
+                    (option[0].toUpperCase() +
+                      option.substring(1)) as keyof typeof typeColorClassChart
                   ]
                 } font-bold`
               : "text-[#191921]"
           } cursor-pointer px-2 py mx-2 my-1 flex items-center justify-center rounded-md dark:hover:bg-gray-200 hover:bg-white disabled:text-slate-400 transition-all`}
-          disabled={filterByType.length > 0 && !filterByType.includes(option)}
-        >
+          disabled={filterByType.length > 0 && !filterByType.includes(option)}>
           {option[0].toUpperCase() + option.substring(1)}
         </button>
       ))}

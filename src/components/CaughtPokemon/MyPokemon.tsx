@@ -55,11 +55,11 @@ const MyPokemon = () => {
         <div className="h-screen max-w-[15rem] flex flex-col justify-center items-center">
           <h2 className="uppercase text-xl font-bold">No Pokemon Caught</h2>
           <p className="text-sm pt-1 text-center max-w-[12rem]">
-            Save Pokemon as caught by using "Add to caught" in
+            Save Pokemon as caught by using &quot;Add to caught&quot; in
             <Link to="/" className="text-sm underline text-purple-200">
               Pokedex
             </Link>
-            or individual Pokemon's page
+            or individual Pokemon&apos;s page
           </p>
         </div>
       )}
@@ -107,12 +107,12 @@ const MyPokemon = () => {
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 grid-rows-[200px] items-start justify-center mt-4 min-w-[65%] min-h-screen ${
           headerOnTop ? "mt-24" : null
         }`}>
-        {/* TODO search doesnt work on iOS mobile browsers ;( */}
-
         {caughtPokemon
           ?.filter((pokemonListItem) => pokemonListItem?.includes(searchTerm))
           .map((pokemon) => {
-            return <PokedexSinglePokemonWrapper key={pokemon} pokemon={{ name: pokemon }} />;
+            return (
+              <PokedexSinglePokemonWrapper key={pokemon} pokemon={{ name: pokemon, url: "" }} />
+            );
           })}
       </div>
     </div>

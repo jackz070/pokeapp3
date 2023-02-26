@@ -16,7 +16,7 @@ import DesktopSearchAndFilter from "./DesktopSearchAndFilter";
 
 const Pokedex = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [filterByType, setFilterByType] = React.useState([]);
+  const [filterByType, setFilterByType] = React.useState<string[]>([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
   const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] = React.useState<
@@ -76,13 +76,11 @@ const Pokedex = () => {
           setShowFilterMenu={setShowFilterMenu}
           filterByType={filterByType}
           setFilterByType={setFilterByType}
-          showMobileSearch={showMobileSearch}
-          setShowMobileSearch={setShowMobileSearch}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
           headerOnTop={headerOnTop}
-          setHeaderOnTop={setHeaderOnTop}
+          noFiltering={false}
         />
       )}
       {mobileMenu && showMobileSearch && (
@@ -92,10 +90,10 @@ const Pokedex = () => {
           filterByType={filterByType}
           setFilterByType={setFilterByType}
           showMobileSearch={showMobileSearch}
-          setShowMobileSearch={setShowMobileSearch}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
+          noFiltering={false}
         />
       )}
       {notFound && <div className="mt-32">No Pokemon found</div>}
