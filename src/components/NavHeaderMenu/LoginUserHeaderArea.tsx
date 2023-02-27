@@ -1,12 +1,8 @@
 import React from "react";
-
 import LoginButton from "../Buttons/LoginButton";
 import { LogoutButton } from "../Buttons/LogoutButton";
-
 import { Link } from "react-router-dom";
-
 import { SignupButton } from "../Buttons/SignupButton";
-
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 import { useCustomUserProfile } from "../../context/CustomUserProfileContext";

@@ -1,12 +1,9 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
-
 import pokeball from "../../assets/nav_pokeball.png";
 import valor from "../../assets/nav_valor.png";
 import trainer from "../../assets/nav_pokemon-trainer.png";
 import star from "../../assets/nav_star.png";
-
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 

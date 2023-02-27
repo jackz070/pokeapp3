@@ -2,9 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
 import TabsComponent from "../../components/TabsComponent/TabsComponent";
-
 import { useLocation } from "react-router-dom";
-
 import ProfileStats from "./ProfileStats";
 import { ProfileSettings } from "./ProfileSettings";
 import { useCustomUserProfile } from "../../context/CustomUserProfileContext";

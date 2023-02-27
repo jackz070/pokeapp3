@@ -1,7 +1,6 @@
 import React from "react";
 import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
 import { Link } from "react-router-dom";
-
 import MobileSearchAndFilter from "../Pokedex/MobileSearchAndFilter";
 import DesktopSearchAndFilter from "../Pokedex/DesktopSearchAndFilter";
 import { useMobileMenu } from "../../context/MobileMenuContext";
@@ -10,7 +9,6 @@ import PokedexSinglePokemonWrapper from "../Pokedex/PokedexSinglePokemonWrapper"
 
 const MyPokemon = () => {
   const { caughtPokemon } = useCaughtPokemon();
-
   const [searchTerm, setSearchTerm] = React.useState("");
   const [filterByType, setFilterByType] = React.useState<string[]>([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);

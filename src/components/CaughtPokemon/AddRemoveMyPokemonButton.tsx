@@ -1,10 +1,8 @@
 import React, { Fragment } from "react";
 import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
 import { Link } from "react-router-dom";
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { capitalize } from "../../utils/text-formatting";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineCheck } from "react-icons/ai";
