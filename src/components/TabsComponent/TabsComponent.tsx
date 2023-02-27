@@ -7,7 +7,7 @@ function TabsComponent({
   defaultIdx
 }: {
   tabs: { label: string; content: JSX.Element }[];
-  defaultIdx: number | undefined;
+  defaultIdx?: number | undefined;
 }) {
   return (
     <div className="Tabs-wrapper relative z-[34]  w-full mx-0">

@@ -12,11 +12,16 @@ const MyPokemon = () => {
   const { caughtPokemon } = useCaughtPokemon();
 
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [filterByType, setFilterByType] = React.useState([]);
+  const [filterByType, setFilterByType] = React.useState<string[]>([]);
   const [showFilterMenu, setShowFilterMenu] = React.useState(false);
   const [headerOnTop, setHeaderOnTop] = React.useState(false);
   const [showMobileSearch, setShowMobileSearch] = React.useState(false);
-  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] = React.useState([]);
+  const [pokemonListToBeDisplayed, setPokemonListToBeDisplayed] = React.useState<
+    {
+      name: string;
+      url: string;
+    }[]
+  >([]);
   const [notFound, setNotFound] = React.useState(false);
 
   const [mobileMenu] = useMobileMenu();
@@ -78,13 +83,10 @@ const MyPokemon = () => {
           setShowFilterMenu={setShowFilterMenu}
           filterByType={filterByType}
           setFilterByType={setFilterByType}
-          showMobileSearch={showMobileSearch}
-          setShowMobileSearch={setShowMobileSearch}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}
           headerOnTop={headerOnTop}
-          setHeaderOnTop={setHeaderOnTop}
           noFiltering={true}
         />
       )}
@@ -95,7 +97,6 @@ const MyPokemon = () => {
           filterByType={filterByType}
           setFilterByType={setFilterByType}
           showMobileSearch={showMobileSearch}
-          setShowMobileSearch={setShowMobileSearch}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setPokemonListToBeDisplayed={setPokemonListToBeDisplayed}

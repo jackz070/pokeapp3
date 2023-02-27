@@ -21,7 +21,7 @@ document.fonts.ready.then(() => {
       <Routes>
         <Route element={<App />}>
           <Route index element={<Pokedex />} />
-          <Route path="/pokemon/:pokemonNumber" element={<PokemonPage />} />
+          <Route path="/pokemon/:pokemonNumber" element={<PokemonPage id="" />} />
           <Route path="/my-pokemon" element={<MyPokemon />} />
           <Route path="/potd" element={<PokemonOfTheDay />} />
           <Route path="/callback" element={<CallbackPage />} />

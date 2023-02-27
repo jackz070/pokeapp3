@@ -1,8 +1,9 @@
 import React from "react";
 import { LogoutButton } from "../../components/Buttons/LogoutButton";
 import HoverPopup from "../../components/HoverPopup";
+import { User } from "@auth0/auth0-react";
 
-export const ProfileSettings = ({ user }) => {
+export const ProfileSettings = ({ user }: { user: User }) => {
   return (
     <div className="flex flex-col items-center mt-4 ">
       <div className="flex flex-col items-center ">
@@ -42,10 +43,7 @@ export const ProfileSettings = ({ user }) => {
       </div>
       <a href="/" className="flex items-center justify-center w-72 mt-4 ">
         Privacy policy
-        <HoverPopup
-          displayText={"?"}
-          popupContent={"There is no privacy policy here"}
-        />
+        <HoverPopup displayText={"?"} popupContent={"There is no privacy policy here"} />
       </a>
       <div className="mt-6">
         <LogoutButton />

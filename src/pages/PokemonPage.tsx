@@ -2,21 +2,15 @@ import React from "react";
 import { usePokemon, usePokemonSpecies } from "../utils/api-client";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-
 import AddRemoveMyPokemonButton from "../components/CaughtPokemon/AddRemoveMyPokemonButton";
-
 import TypeChip from "../components/TypeChip";
 import typeColorClassChartBg from "../utils/typeColorClassChart-bg";
 import TabsComponent from "../components/TabsComponent/TabsComponent";
-
 import About from "../components/PokemonPageInfoComponents/About/About";
 import Stats from "../components/PokemonPageInfoComponents/Stats";
 import Evolutions from "../components/PokemonPageInfoComponents/Evolutions/Evolutions";
-
 import { capitalize } from "../utils/text-formatting";
-
 import { usePokedexSettings } from "../context/PokedexSettingsContext";
-
 import FullScreenLoading from "../components/Loaders/FullScreenLoading";
 import { useMobileMenu } from "../context/MobileMenuContext";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
@@ -151,33 +145,24 @@ const PokemonPage = ({ id }: { id: string }) => {
       </div>
 
       <div>
-        <TabsComponent
-          className="relative z-[55]"
-          tabs={[
-            {
-              label: "About",
-              content: (
-                <About
-                  thisPokemon={thisPokemon}
-                  thisPokemonDetails={thisPokemonDetails}
-                  className="relative z-[55]"
-                  isLoading={isLoading}
-                  isSuccess={isSuccess}
-                />
-              )
-            },
-            {
-              label: "Stats",
-              content: <Stats thisPokemon={thisPokemon} className="relative z-[55]" />
-            },
-            {
-              label: "Evolutions",
-              content: (
-                <Evolutions thisPokemonDetails={thisPokemonDetails} className="relative z-[55]" />
-              )
-            }
-          ]}
-        />
+        {thisPokemon && (
+          <TabsComponent
+            tabs={[
+              {
+                label: "About",
+                content: <About thisPokemon={thisPokemon} thisPokemonDetails={thisPokemonDetails} />
+              },
+              {
+                label: "Stats",
+                content: <Stats thisPokemon={thisPokemon} />
+              },
+              {
+                label: "Evolutions",
+                content: <Evolutions thisPokemonDetails={thisPokemonDetails} />
+              }
+            ]}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Auth0ProviderWithHistory } from "./auth0-provider-with-history";
@@ -8,14 +8,14 @@ import { PokedexSettingsProvider } from "./context/PokedexSettingsContext";
 import { MobileMenuContextProvider } from "./context/MobileMenuContext";
 import { CustomUserProfileContextProvider } from "./context/CustomUserProfileContext";
 
-import history from "./utils/history";
+// import history from "./utils/history";
 import { DarkModeContextProvider } from "./context/DarkModeContext";
 
-const AppProviders = ({ children }) => {
+const AppProviders = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter history={history}>
+      <BrowserRouter>
         <CaughtPokemonProvider>
           <PokedexSettingsProvider>
             <MobileMenuContextProvider>

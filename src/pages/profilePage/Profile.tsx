@@ -11,14 +11,12 @@ import { useCustomUserProfile } from "../../context/CustomUserProfileContext";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 import ProfilePictureModal from "./ProfilePictureModal";
 
-// TODO concept - create a signup and signin routes, signup with a multi-step form that allows to choose google data preferences (show email etc), next choose profile picture from google or custom from available, next display all of them to confirm and confirm
-
 const Profile = () => {
   const [showProfilePictureSelectModal, setShowProfilePictureSelectModal] = React.useState(false);
 
   const { user } = useAuth0();
   const { caughtPokemon } = useCaughtPokemon();
-  const { customImg, availableImgs } = useCustomUserProfile();
+  const { customImg } = useCustomUserProfile();
   const [customUserImg, setCustomUserImg] = customImg;
 
   const [mobileMenu] = useMobileMenu();
@@ -28,8 +26,10 @@ const Profile = () => {
   // TODO Stats about caught pokemon, maybe a type graph, number, fav type, user since, ===> backend that stores user id (email?), caught pokemon, date of first signin
 
   React.useEffect(() => {
-    if (customUserImg?.img?.length === 0) {
-      setCustomUserImg(user.picture);
+    if (customUserImg?.img?.length === 0 && user?.picture) {
+      console.log(user.picture);
+      const newCustomUserImg = { img: user.picture, bg: customUserImg.bg };
+      setCustomUserImg(newCustomUserImg);
     }
   }, []);
 
@@ -61,19 +61,21 @@ const Profile = () => {
       <div className="text-2xl font-bold pt-2">{user?.given_name}</div>
       <div className="text-xs text-gray-500">Joined today</div>
 
-      <TabsComponent
-        tabs={[
-          {
-            label: "Stats",
-            content: <ProfileStats caughtPokemon={caughtPokemon} />
-          },
-          {
-            label: "Settings",
-            content: <ProfileSettings user={user} />
-          }
-        ]}
-        defaultIdx={hash === "#settings" ? 1 : 0}
-      />
+      {user && (
+        <TabsComponent
+          tabs={[
+            {
+              label: "Stats",
+              content: <ProfileStats caughtPokemon={caughtPokemon} />
+            },
+            {
+              label: "Settings",
+              content: <ProfileSettings user={user} />
+            }
+          ]}
+          defaultIdx={hash === "#settings" ? 1 : 0}
+        />
+      )}
     </div>
   );
 };

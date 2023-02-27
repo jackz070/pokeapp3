@@ -5,11 +5,12 @@ import { QueryClient } from "@tanstack/react-query";
 import { PieChart } from "react-minimal-pie-chart";
 import { capitalize } from "../../utils/text-formatting";
 import typeColorClassChartCodes from "../../utils/typeColorClassChart-codes";
+import { BaseDataEntry } from "react-minimal-pie-chart/types/commonTypes";
 
 const TypePieChart = () => {
-  const [data, setData] = React.useState();
+  const [data, setData] = React.useState<BaseDataEntry[]>();
   const [loading, setLoading] = React.useState(true);
-  const [types, setTypes] = React.useState([]);
+  const [types, setTypes] = React.useState<string[]>([]);
 
   const { caughtPokemon } = useCaughtPokemon();
 
@@ -21,8 +22,8 @@ const TypePieChart = () => {
     }
   });
 
-  const createTally = (items = []) => {
-    const tally = {};
+  const createTally = (items: string[] = []) => {
+    const tally: { [key: string]: number } = {};
 
     items.forEach((key) => {
       tally[key] = tally[key] ? tally[key] + 1 : 1;
@@ -44,27 +45,28 @@ const TypePieChart = () => {
                 return res.json();
               })
               .then((data) =>
-                data?.types?.map((type) =>
-                  setTypes((prev) => [...prev, capitalize(type.type.name)])
-                )
+                data?.types?.map((type: { slot: number; type: { name: string; url: string } }) => {
+                  setTypes((prev) => [...prev, capitalize(type.type.name)]);
+                })
               )
         });
       })
     );
+
     const talliedTypes = createTally(types);
 
     for (const type in talliedTypes) {
       formattedData.push({
         title: type,
-        value: talliedTypes[type],
-        color: typeColorClassChartCodes[type]
+        value: talliedTypes[type as keyof typeof talliedTypes],
+        color: typeColorClassChartCodes[type as keyof typeof typeColorClassChartCodes]
       });
     }
     setData(formattedData);
   };
 
   React.useEffect(() => {
-    if (!caughtPokemon.length === 0) {
+    if (!(caughtPokemon.length === 0)) {
       fillAllTypes();
     }
   }, []);
@@ -77,16 +79,18 @@ const TypePieChart = () => {
 
   return (
     <div>
-      <PieChart
-        className="w-72 h-72"
-        data={data}
-        label={({ dataEntry }) => dataEntry.title}
-        labelStyle={(index) => ({
-          fontSize: "4px",
-          fill: ""
-        })}
-        labelPosition={80}
-      />
+      {data && (
+        <PieChart
+          className="w-72 h-72"
+          data={data}
+          label={({ dataEntry }) => dataEntry.title}
+          labelStyle={() => ({
+            fontSize: "4px",
+            fill: ""
+          })}
+          labelPosition={80}
+        />
+      )}
     </div>
   );
 };

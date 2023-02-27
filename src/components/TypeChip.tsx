@@ -9,7 +9,9 @@ const TypeChip = ({ type }: { type: string }) => {
       // href={`/type/${type.toLowerCase()}`}
       key={type[0]?.toUpperCase() + type.substring(1)}
       className={`${
-        typeColorClassChartBGlightMode[type.toLowerCase()]
+        typeColorClassChartBGlightMode[
+          type.toLowerCase() as keyof typeof typeColorClassChartBGlightMode
+        ]
       } text-white  ml-1 mr-1 mx-2 w-14 h-5 rounded-xl flex justify-center items-center text-xs`}>
       {type[0]?.toUpperCase() + type.substring(1)}
     </div>
