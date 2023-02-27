@@ -26,8 +26,7 @@ const LoginUserHeaderArea = () => {
         <div className="relative w-fit">
           <button
             className=" flex items-center  dark:bg-white  dark:text-darkPrimary bg-trueWhite rounded-md px-2 py-1 dark:hover:brightness-95 dark:active:brightness-90 z-[3000]"
-            onClick={() => setShowProfileMenu((prev) => !prev)}
-          >
+            onClick={() => setShowProfileMenu((prev) => !prev)}>
             <div className=" ml-2 text-md">{user.given_name}</div>
             <img
               src={customUserImg?.img ? customUserImg?.img : user?.picture}
@@ -43,8 +42,7 @@ const LoginUserHeaderArea = () => {
                 <li className="pointer">
                   <Link
                     to="/profile#settings"
-                    className="dark:hover:bg-gray-200 hover:bg-gray-100 px-2 py-1 rounded-md"
-                  >
+                    className="dark:hover:bg-gray-200 hover:bg-gray-100 px-2 py-1 rounded-md">
                     Settings
                   </Link>
                 </li>
@@ -57,12 +55,8 @@ const LoginUserHeaderArea = () => {
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <SignupButton displayText={"Signup"} className="text-2xl" />
-          <LoginButton
-            displayText={"Login"}
-            type={"primary"}
-            className="text-2xl"
-          />
+          <SignupButton />
+          <LoginButton displayText={"Login"} type={"primary"} />
         </div>
       )}
     </div>

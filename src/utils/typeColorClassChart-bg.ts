@@ -1,4 +1,4 @@
-import { PokemonTypes } from "./pokemonTypes";
+import { PokemonTypes } from "../types/pokemonTypes";
 
 const typeColorClassChartBg: PokemonTypes = {
   normal: "from-[#A8A77A]",

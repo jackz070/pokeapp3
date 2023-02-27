@@ -1,8 +1,8 @@
 import { Auth0Provider } from "@auth0/auth0-react";
-import React from "react";
+import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Auth0ProviderWithHistory = ({ children }) => {
+export const Auth0ProviderWithHistory = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
 
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
@@ -23,8 +23,7 @@ export const Auth0ProviderWithHistory = ({ children }) => {
       clientId={clientId}
       redirectUri={redirectUri}
       onRedirectCallback={onRedirectCallback}
-      cacheLocation="localstorage"
-    >
+      cacheLocation="localstorage">
       {children}
     </Auth0Provider>
   );

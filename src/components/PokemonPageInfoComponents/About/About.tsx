@@ -1,6 +1,6 @@
 import React from "react";
 import AbilitiesToDisplay from "./AbilitiesToDisplay";
-import { Pokemon } from "../../../types";
+import { Pokemon } from "../../../types/pokemon";
 import { type IPokemonSpecies } from "../../../types/pokemonSpecies";
 
 const About = ({

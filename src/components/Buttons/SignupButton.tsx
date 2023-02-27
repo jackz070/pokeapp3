@@ -8,16 +8,15 @@ export const SignupButton = () => {
     await loginWithRedirect({
       screen_hint: "signup",
       appState: {
-        returnTo: "/profile",
-      },
+        returnTo: "/profile"
+      }
     });
   };
 
   return (
     <button
       className="dark:text-white text-darkPrimary px-8 py-2 tracking-wider outline-none rounded-sm hover:brightness-105 active:scale-[.98] active:shadow-sm"
-      onClick={handleSignUp}
-    >
+      onClick={handleSignUp}>
       Sign Up
     </button>
   );

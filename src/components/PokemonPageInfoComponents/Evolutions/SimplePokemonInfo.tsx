@@ -1,23 +1,20 @@
 import React from "react";
 import { usePokemon } from "../../../utils/api-client";
 import { Link } from "react-router-dom";
-
-import { usePokedexSettings } from "../../../context/PokedexSettingsContext";
 import LoadingSpinner from "../../Loaders/LoadingSpinner";
 
-const SimplePokemonInfo = ({ pokemonNumber, name = true }) => {
-  const [limit] = usePokedexSettings();
+import { Pokemon } from "../../../types/pokemon";
 
-  const {
-    isLoading,
-    isError,
-    isSuccess,
-    isFetching,
-    data: thisPokemon,
-    status,
-  } = usePokemon(pokemonNumber);
+const SimplePokemonInfo = ({
+  pokemonNumber,
+  name = true
+}: {
+  pokemonNumber: string;
+  name?: boolean;
+}) => {
+  const { isLoading, isError, isSuccess, data: thisPokemon } = usePokemon(pokemonNumber);
 
-  const imageSelect = (thisPokemon) => {
+  const imageSelect = (thisPokemon: Pokemon) => {
     const imgSrc =
       thisPokemon?.sprites.other.dream_world.front_default ||
       thisPokemon?.sprites.other.home.front_default ||
@@ -27,25 +24,16 @@ const SimplePokemonInfo = ({ pokemonNumber, name = true }) => {
     return (
       <div className="w-20 h-20 block">
         {imgSrc ? (
-          <img
-            src={imgSrc}
-            alt={thisPokemon?.name}
-            className="relative px-2 z-[35] w-20 h-20"
-          />
+          <img src={imgSrc} alt={thisPokemon?.name} className="relative px-2 z-[35] w-20 h-20" />
         ) : (
-          <div className="w-20 h-20 text-xs flex items-center justify-center">
-            No Image
-          </div>
+          <div className="w-20 h-20 text-xs flex items-center justify-center">No Image</div>
         )}
       </div>
     );
   };
 
   return (
-    <Link
-      to={`/pokemon/${thisPokemon?.id}`}
-      className="flex flex-col items-center "
-    >
+    <Link to={`/pokemon/${thisPokemon?.id}`} className="flex flex-col items-center ">
       <div>
         {isLoading ? (
           <LoadingSpinner />
@@ -56,8 +44,7 @@ const SimplePokemonInfo = ({ pokemonNumber, name = true }) => {
             {imageSelect(thisPokemon)}
             {name && (
               <h2 className=" text-lg font-bold pb-2">
-                {thisPokemon?.name[0].toUpperCase() +
-                  thisPokemon?.name?.substring(1)}
+                {thisPokemon?.name[0].toUpperCase() + thisPokemon?.name?.substring(1)}
               </h2>
             )}
           </div>

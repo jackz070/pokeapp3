@@ -3,7 +3,7 @@ import { IMove } from "../Moves/Move";
 import { IMoveDamageClass } from "../Moves/MoveDamageClass";
 import { IGenerationGameIndex, IName } from "../Utility/CommonModels";
 import { INamedApiResource } from "../Utility/NamedApiResourceList";
-import { IPokemon } from "./Pokemon";
+import { IPokemon } from "./pokemonTypes";
 
 export interface IType {
   id: number;

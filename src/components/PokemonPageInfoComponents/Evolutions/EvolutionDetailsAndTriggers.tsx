@@ -1,12 +1,14 @@
 import React from "react";
+import { type IEvolutionDetail } from "../../../types/evolutionChain";
 
-import {
-  capitalize,
-  replaceHyphenWithSpaceAndCapitalize,
-} from "../../../utils/text-formatting";
+import { capitalize, replaceHyphenWithSpaceAndCapitalize } from "../../../utils/text-formatting";
 
-const EvolutionDetailsAndTriggers = ({ evolutionDetails }) => {
-  const evolutionDetailsInfo = (evolutionDetails) => {
+const EvolutionDetailsAndTriggers = ({
+  evolutionDetails
+}: {
+  evolutionDetails: IEvolutionDetail;
+}) => {
+  const evolutionDetailsInfo = (evolutionDetails: IEvolutionDetail) => {
     if (evolutionDetails?.min_level) {
       return `Min. Level ${evolutionDetails?.min_level}`;
     }
@@ -21,20 +23,18 @@ const EvolutionDetailsAndTriggers = ({ evolutionDetails }) => {
       if (/\s/.test(formattedItem)) {
         formattedItem = formattedItem
           .split(" ")
-          .map((word) => capitalize(word))
+          .map((word: string) => capitalize(word))
           .join(" ");
       }
 
       return `Item: ${formattedItem}`;
     }
     if (evolutionDetails?.held_item) {
-      return `Held item: ${replaceHyphenWithSpaceAndCapitalize(
-        evolutionDetails?.held_item.name
-      )}`;
+      return `Held item: ${replaceHyphenWithSpaceAndCapitalize(evolutionDetails?.held_item.name)}`;
     }
   };
 
-  const evolutionTriggersInfo = (evolutionDetails) => {
+  const evolutionTriggersInfo = (evolutionDetails: IEvolutionDetail) => {
     if (evolutionDetails?.trigger?.name) {
       if (evolutionDetails?.trigger?.name === "use-item") {
         return "Trigger: Use Item";

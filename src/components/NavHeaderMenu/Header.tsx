@@ -21,7 +21,6 @@ const Header = () => {
   const basePath = useBasePath();
   const [darkMode] = useDarkMode();
 
-  console.log(document.body.classList.contains("dark"));
   return (
     <Fragment>
       <ToastContainer theme={darkMode ? "dark" : "light"} className="mt-14" />

@@ -1,4 +1,4 @@
-import { PokemonTypes } from "./pokemonTypes";
+import { PokemonTypes } from "../types/pokemonTypes";
 
 const typeColorClassChartBGlightMode: PokemonTypes = {
   normal: "bg-[#A8A77A]",

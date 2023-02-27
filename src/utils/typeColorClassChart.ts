@@ -1,4 +1,4 @@
-import { PokemonTypesCapitalized } from "./pokemonTypes";
+import { PokemonTypesCapitalized } from "../types/pokemonTypes";
 
 const typeColorClassChart: PokemonTypesCapitalized = {
   Normal: "text-[#A8A77A] border-[#A8A77A]",

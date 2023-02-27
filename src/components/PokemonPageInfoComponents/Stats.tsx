@@ -1,13 +1,13 @@
 import React from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
-import typeColorClassChartCodes from "../../utils/typeColorClassChart-codes";
+import { Pokemon } from "../../types/pokemon";
 
 import "./Stats.css";
-//TODO stat chart color -> type
-const Stats = ({ thisPokemon }) => {
+
+const Stats = ({ thisPokemon }: { thisPokemon: Pokemon }) => {
   return (
     <div>
-      {thisPokemon?.stats.map((stat) => (
+      {thisPokemon?.stats?.map((stat) => (
         <div className="flex items-center justify-between" key={stat.stat.name}>
           <h5>
             {stat.stat.name === "special-attack"
@@ -24,7 +24,7 @@ const Stats = ({ thisPokemon }) => {
             <ProgressBar
               completed={stat.base_stat}
               maxCompleted={255}
-              customLabel={null}
+              customLabel={undefined}
               animateOnRender={true}
               labelClassName="progress_bar-className"
               height="8px"

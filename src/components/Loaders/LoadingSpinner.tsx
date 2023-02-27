@@ -1,6 +1,6 @@
 import React from "react";
 
-const LoadingSpinner = ({ size }: { size: string }) => {
+const LoadingSpinner = ({ size = "normal" }: { size?: string }) => {
   const chooseSize = (size: string) => {
     if (size === "small") {
       return "w-8 h-8";

@@ -7,12 +7,17 @@ import { Outlet } from "react-router-dom";
 
 import { useMobileMenu } from "./context/MobileMenuContext";
 
-// TODO fix assets for github pages deploy according to https://github.com/sitek94/vite-deploy-demo
 // TODO get auth ready for deployment, probably needs something regarding secure origin & for sure adding all the URLs, also has some settings for dev => prod
 function App() {
-  const [sideNavIsOpen, setSideNavIsOpen] = React.useState(false);
+  // const [sideNavIsOpen, setSideNavIsOpen] = React.useState(false);
 
-  function ErrorFallback({ error, resetErrorBoundary }) {
+  function ErrorFallback({
+    error,
+    resetErrorBoundary
+  }: {
+    error: Error;
+    resetErrorBoundary: (...args: Array<unknown>) => void;
+  }) {
     return (
       <div role="alert">
         There was an error:
@@ -30,8 +35,8 @@ function App() {
         <Header />
         {!mobileMenu && (
           <Nav
-            sideNavIsOpen={sideNavIsOpen}
-            setSideNavIsOpen={setSideNavIsOpen}
+          // sideNavIsOpen={sideNavIsOpen}
+          // setSideNavIsOpen={setSideNavIsOpen}
           />
         )}
 

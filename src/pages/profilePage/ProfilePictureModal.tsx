@@ -4,15 +4,18 @@ import { useCustomUserProfile } from "../../context/CustomUserProfileContext";
 import Button from "../../components/Buttons/Button";
 import BlurredBackground from "./BlurredBackground";
 
-const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
-  const { customImg, availableImgs, availableBgColors } =
-    useCustomUserProfile();
+const ProfilePictureModal = ({
+  setShowProfilePictureSelectModal
+}: {
+  setShowProfilePictureSelectModal: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { customImg, availableImgs, availableBgColors } = useCustomUserProfile();
   const [customUserImg, setCustomUserImg] = customImg;
 
   const [prevUserImg, setPrevUserImg] = React.useState(customUserImg.img);
   const [prevUserBg, setPrevUserBg] = React.useState(customUserImg.bg);
 
-  const handleSetCustomUserImgClick = (availableImg) => {
+  const handleSetCustomUserImgClick = (availableImg: string) => {
     if (customUserImg.img === availableImg) {
       setCustomUserImg((prev) => {
         return { img: "", bg: prev.bg };
@@ -24,7 +27,7 @@ const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
     }
   };
 
-  const handleSetCustomUserBgClick = (availableBgColor) => {
+  const handleSetCustomUserBgClick = (availableBgColor: string) => {
     if (customUserImg.bg === availableBgColor) {
       setCustomUserImg((prev) => {
         return { img: prev.img, bg: "" };
@@ -37,7 +40,7 @@ const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
   };
 
   const discardChanges = () => {
-    setCustomUserImg((prev) => {
+    setCustomUserImg(() => {
       return { bg: prevUserBg, img: prevUserImg };
     });
     setShowProfilePictureSelectModal(false);
@@ -58,9 +61,7 @@ const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
   return (
     <BlurredBackground>
       <div className="absolute  bg-white text-darkPrimary rounded-md p-6 flex flex-col justify-center max-w-[90%] z-[9000]">
-        <h6 className="pb-4 text-gray-600 text-xs mx-auto">
-          Choose profile picture
-        </h6>
+        <h6 className="pb-4 text-gray-600 text-xs mx-auto">Choose profile picture</h6>
         <div className="flex flex-wrap mb-6">
           {availableImgs.map((availableImg) => (
             <button
@@ -69,26 +70,19 @@ const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
                 handleSetCustomUserImgClick(availableImg);
               }}
               className={`${
-                customUserImg === availableImg
-                  ? "border-2 border-red-500"
-                  : null
-              } mx-2`}
-            >
+                customUserImg.img === availableImg ? "border-2 border-red-500" : null
+              } mx-2`}>
               <img
                 src={availableImg}
                 className={`h-8 w-8 rounded-full ${
-                  customUserImg.img === availableImg
-                    ? "border-2 border-darkPrimary"
-                    : null
+                  customUserImg.img === availableImg ? "border-2 border-darkPrimary" : null
                 }`}
               />
             </button>
           ))}
         </div>
 
-        <h6 className="py-4 text-gray-600 text-xs mx-auto">
-          Choose background color
-        </h6>
+        <h6 className="py-4 text-gray-600 text-xs mx-auto">Choose background color</h6>
         <div className="flex flex-wrap mb-6">
           {availableBgColors.map((availableBgColor) => (
             <button
@@ -97,20 +91,14 @@ const ProfilePictureModal = ({ setShowProfilePictureSelectModal }) => {
                 handleSetCustomUserBgClick(availableBgColor);
               }}
               className={`${availableBgColor}  h-8 w-8 rounded-full  mx-2 ${
-                customUserImg.bg === availableBgColor
-                  ? "border-2 border-darkPrimary"
-                  : null
+                customUserImg.bg === availableBgColor ? "border-2 border-darkPrimary" : null
               }`}
             />
           ))}
         </div>
 
         <div className="flex items-center gap-2 justify-end">
-          <Button
-            displayText="DISCARD"
-            type="negative"
-            onClick={discardChanges}
-          />
+          <Button displayText="DISCARD" type="negative" onClick={discardChanges} />
 
           <Button displayText="SAVE" type="positive" onClick={confirmChanges} />
         </div>

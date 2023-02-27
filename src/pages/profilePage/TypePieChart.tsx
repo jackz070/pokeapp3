@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useCaughtPokemon } from "../../context/CaughtPokemonContext";
-import { usePokemon } from "../../utils/api-client";
 import { QueryClient } from "@tanstack/react-query";
 import { PieChart } from "react-minimal-pie-chart";
 import { capitalize } from "../../utils/text-formatting";
@@ -17,9 +16,9 @@ const TypePieChart = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: Infinity,
-      },
-    },
+        staleTime: Infinity
+      }
+    }
   });
 
   const createTally = (items = []) => {
@@ -48,17 +47,17 @@ const TypePieChart = () => {
                 data?.types?.map((type) =>
                   setTypes((prev) => [...prev, capitalize(type.type.name)])
                 )
-              ),
+              )
         });
       })
     );
     const talliedTypes = createTally(types);
 
-    for (let type in talliedTypes) {
+    for (const type in talliedTypes) {
       formattedData.push({
         title: type,
         value: talliedTypes[type],
-        color: typeColorClassChartCodes[type],
+        color: typeColorClassChartCodes[type]
       });
     }
     setData(formattedData);
@@ -84,7 +83,7 @@ const TypePieChart = () => {
         label={({ dataEntry }) => dataEntry.title}
         labelStyle={(index) => ({
           fontSize: "4px",
-          fill: "",
+          fill: ""
         })}
         labelPosition={80}
       />

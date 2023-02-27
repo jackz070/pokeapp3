@@ -21,7 +21,7 @@ import FullScreenLoading from "../components/Loaders/FullScreenLoading";
 import { useMobileMenu } from "../context/MobileMenuContext";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from "react-icons/ai";
 
-import { Pokemon } from "../types";
+import { Pokemon } from "../types/pokemon";
 
 const PokemonPage = ({ id }: { id: string }) => {
   let { pokemonNumber } = useParams();

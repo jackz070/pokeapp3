@@ -1,9 +1,28 @@
 import React from "react";
 
-const CustomUserProfileContext = React.createContext();
+type CustomUserProfileContextValueType = {
+  customImg: [
+    customUserImg: {
+      img: string;
+      bg: string;
+    },
+    setCustomUserImg: React.Dispatch<
+      React.SetStateAction<{
+        img: string;
+        bg: string;
+      }>
+    >
+  ];
+  availableImgs: string[];
+  availableBgColors: string[];
+};
+
+const CustomUserProfileContext = React.createContext<CustomUserProfileContextValueType | undefined>(
+  undefined
+);
 CustomUserProfileContext.displayName = "CustomUserProfileContext";
 
-const CustomUserProfileContextProvider = (props) => {
+const CustomUserProfileContextProvider = (props: { [key: string]: unknown }) => {
   const [customUserImg, setCustomUserImg] = React.useState({ img: "", bg: "" });
 
   const availableProfilePictures = [
@@ -14,7 +33,7 @@ const CustomUserProfileContextProvider = (props) => {
     "/Images/userImg_Squirtle.png",
     "/Images/userImg_Psyduck.png",
     "/Images/userImg_Snorlax.png",
-    "/Images/userImg_Meowth.png",
+    "/Images/userImg_Meowth.png"
   ];
 
   const availableProfilePictureBackgrounds = [
@@ -25,23 +44,27 @@ const CustomUserProfileContextProvider = (props) => {
     "bg-[#FEE440]",
     "bg-[#BFDA6F]",
     "bg-[#7FD09D]",
-    "bg-[#00BBF9]",
+    "bg-[#00BBF9]"
   ];
 
   const value = {
     customImg: [customUserImg, setCustomUserImg],
-    availableImgs: availableProfilePictures, availableBgColors: availableProfilePictureBackgrounds
+    availableImgs: availableProfilePictures,
+    availableBgColors: availableProfilePictureBackgrounds
   };
 
-  return <CustomUserProfileContext.Provider value={value} {...props} />;
+  return (
+    <CustomUserProfileContext.Provider
+      value={value as CustomUserProfileContextValueType}
+      {...props}
+    />
+  );
 };
 
 function useCustomUserProfile() {
   const context = React.useContext(CustomUserProfileContext);
   if (context === undefined) {
-    throw new Error(
-      `useCustomUserProfile must be used within a CustomUserProfileContextProvider`
-    );
+    throw new Error(`useCustomUserProfile must be used within a CustomUserProfileContextProvider`);
   }
   return context;
 }

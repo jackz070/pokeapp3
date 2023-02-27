@@ -1,5 +1,5 @@
 import React from "react";
-import { Pokemon } from "../../../types";
+import { Pokemon } from "../../../types/pokemon";
 
 import Ability from "./Ability";
 

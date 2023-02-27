@@ -4,7 +4,7 @@ import iconLight from "../assets/icon-light.png";
 import iconDark from "../assets/icon-dark.png";
 import { useDarkMode } from "../context/DarkModeContext";
 
-const DarkModeSwitch = ({ small }: { small: boolean }) => {
+const DarkModeSwitch = ({ small = false }: { small?: boolean }) => {
   const [darkMode, setDarkMode] = useDarkMode();
 
   const handleChange = () => {

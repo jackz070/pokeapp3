@@ -1,19 +1,20 @@
 import React from "react";
-
 import Nav from "./Nav";
-import LoginUserHeaderArea from "./LoginUserHeaderArea";
-
 import { RemoveScroll } from "react-remove-scroll";
-import DarkModeSwitch from "../../utils/DarkModeSwitch";
 
-const MobileMenu = ({ setDisplayMobileMenu }) => {
-  const handleClickOutsideElements = (e) => {
-    if (e.target.tagName !== "DIV" && e.target.tagName !== "svg") {
+const MobileMenu = ({
+  setDisplayMobileMenu
+}: {
+  setDisplayMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const handleClickOutsideElements = (e: MouseEvent | TouchEvent) => {
+    const element = e?.target as Element;
+    if (element.tagName !== "DIV" && element.tagName !== "svg") {
       setDisplayMobileMenu(false);
     }
   };
 
-  React.useEffect((props) => {
+  React.useEffect(() => {
     window.addEventListener("click", handleClickOutsideElements);
     return () => {
       window.removeEventListener("click", handleClickOutsideElements);

@@ -10,7 +10,7 @@ import { capitalize } from "../../utils/text-formatting";
 import AddRemoveMyPokemonButton from "../CaughtPokemon/AddRemoveMyPokemonButton";
 import { useMobileMenu } from "../../context/MobileMenuContext";
 
-import { Pokemon } from "../../types";
+import { Pokemon } from "../../types/pokemon";
 
 const PokedexSinglePokemon = ({ pokemon }: { pokemon: { name: string; url: string } }) => {
   const [hovered, setHovered] = React.useState(false);
