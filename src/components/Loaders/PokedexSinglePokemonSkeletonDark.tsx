@@ -8,7 +8,7 @@ const PokedexSinglePokemonSkeletonDark = (props: IContentLoaderProps) => (
     width={140}
     height={150}
     viewBox="0 0 140 150"
-    backgroundColor="#808080"
+    backgroundColor="#202027"
     foregroundColor="#ebebeb"
     {...props}>
     <rect x="59" y="113" rx="0" ry="0" width="22" height="12" />

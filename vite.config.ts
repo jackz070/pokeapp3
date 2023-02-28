@@ -1,11 +1,11 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+/// <reference types="vitest" />
+import { defineConfig } from "vitest/config";
 import mkcert from "vite-plugin-mkcert";
+import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  // below base line allows the gh-pages deploy to work correcty per vite-deploy-demo guidelines
-
-  // mkcert allows me to run dev server over https, which is required for auth0 which needs to run from "secure web origin", if its not the provider throws an error
+  server: { https: true },
+  plugins: [react(), mkcert()],
+  test: { globals: true, environment: "jsdom", setupFiles: "./src/__tests__/vitest-setup.js" }
 });
