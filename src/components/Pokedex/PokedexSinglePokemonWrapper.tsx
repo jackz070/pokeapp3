@@ -1,6 +1,8 @@
 import React from "react";
 import PokedexSinglePokemon from "./PokedexSinglePokemon";
 import PokedexSinglePokemonSkeletonDark from "../Loaders/PokedexSinglePokemonSkeletonDark";
+import PokedexSinglePokemonSkeletonLight from "../Loaders/PokedexSinglePokemonSkeletonLight";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 import { useInView } from "react-intersection-observer";
 
@@ -10,10 +12,14 @@ const PokedexSinglePokemonWrapper = ({ pokemon }: { pokemon: { name: string; url
     threshold: 0
   });
 
+  const darkMode = useDarkMode();
+  const darkModeFlag = darkMode[0];
+
   return (
     <div ref={ref}>
-      {!inView && <PokedexSinglePokemonSkeletonDark />}
-      {inView && <PokedexSinglePokemon pokemon={pokemon} />}
+      {!inView && darkModeFlag && <PokedexSinglePokemonSkeletonDark />}
+      {!inView && !darkModeFlag && <PokedexSinglePokemonSkeletonLight />}
+      {inView && <PokedexSinglePokemon pokemon={pokemon} darkModeFlag={darkModeFlag} />}
     </div>
   );
 };

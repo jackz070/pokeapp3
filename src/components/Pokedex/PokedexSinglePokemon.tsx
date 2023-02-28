@@ -4,6 +4,7 @@ import TypeChip from "../TypeChip";
 import { Link } from "react-router-dom";
 import typeColorClassChartBg from "../../utils/typeColorClassChart-bg";
 import PokedexSinglePokemonSkeletonDark from "../Loaders/PokedexSinglePokemonSkeletonDark";
+import PokedexSinglePokemonSkeletonLight from "../Loaders/PokedexSinglePokemonSkeletonLight";
 
 import { capitalize } from "../../utils/text-formatting";
 
@@ -12,7 +13,13 @@ import { useMobileMenu } from "../../context/MobileMenuContext";
 
 import { Pokemon } from "../../types/pokemon";
 
-const PokedexSinglePokemon = ({ pokemon }: { pokemon: { name: string; url: string } }) => {
+const PokedexSinglePokemon = ({
+  pokemon,
+  darkModeFlag
+}: {
+  pokemon: { name: string; url: string };
+  darkModeFlag: boolean;
+}) => {
   const [hovered, setHovered] = React.useState(false);
 
   const {
@@ -38,8 +45,11 @@ const PokedexSinglePokemon = ({ pokemon }: { pokemon: { name: string; url: strin
     thisPokemon?.types?.map((type) => types.push(type.type.name));
   }
 
-  if (isLoading) {
+  if (isLoading && darkModeFlag) {
     return <PokedexSinglePokemonSkeletonDark />;
+  }
+  if (isLoading && !darkModeFlag) {
+    return <PokedexSinglePokemonSkeletonLight />;
   }
   if (isError) {
     return <div>Error</div>;
